@@ -29,37 +29,38 @@ if (userData) {
   });
 }
 
+// eslint-disable-next-line react-hooks/exhaustive-deps
 
 }, []);
 
-useEffect(() => {
-const mockNotifications = [
-{
-id: "1",
-type: "lead",
-message: "New lead added: John Doe",
-created_at: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
-},
-{
-id: "2",
-type: "deal",
-message: "Deal Closed: Luxury Villa",
-created_at: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
-},
-{
-id: "3",
-type: "property",
-message: "New property listed: Downtown Apartment",
-created_at: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
-},
-];
+// useEffect(() => {
+// const mockNotifications = [
+// {
+// id: "1",
+// type: "lead",
+// message: "New lead added: John Doe",
+// created_at: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
+// },
+// {
+// id: "2",
+// type: "deal",
+// message: "Deal Closed: Luxury Villa",
+// created_at: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
+// },
+// {
+// id: "3",
+// type: "property",
+// message: "New property listed: Downtown Apartment",
+// created_at: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
+// },
+// ];
 
-```
-setNotifications(mockNotifications);
-setUnseenCount(mockNotifications.length);
-```
+// ```
+// setNotifications(mockNotifications);
+// setUnseenCount(mockNotifications.length);
+// ```
 
-}, []);
+// }, []);
 
 useEffect(() => {
 const handleClickOutside = (event) => {

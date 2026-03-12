@@ -37,14 +37,14 @@ const Agents = () => {
   useEffect(() => {
     loadData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-
-  }, []);
+}, []);
 
   // Handle window resize
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Load data from localStorage
@@ -241,8 +241,7 @@ const Agents = () => {
     window.addEventListener('storage', handleStorageChange);
     return () => window.removeEventListener('storage', handleStorageChange);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-
-  }, []);
+}, []);
 
   // Calculate totals
   const totalAgents = agentsData.length;

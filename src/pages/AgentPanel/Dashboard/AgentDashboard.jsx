@@ -77,8 +77,7 @@ const AgentDashboard = () => {
       window.removeEventListener('localStorageUpdated', handleStorageChange);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-
-  }, [selectedDate]);
+}, []);
 
   const loadDashboardData = () => {
     setLoading(true);

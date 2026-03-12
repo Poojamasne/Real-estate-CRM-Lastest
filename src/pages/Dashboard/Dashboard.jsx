@@ -44,8 +44,7 @@ const Dashboard = () => {
       window.removeEventListener('localStorageUpdated', handleStorageChange);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-
-  }, []);
+}, []);
 
   const loadAllData = () => {
     setLoading(true);
