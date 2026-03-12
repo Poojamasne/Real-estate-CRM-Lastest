@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { getAssetPath } from "../../utils/assetPath";
 import "./Navbar.css";
 
@@ -9,12 +9,12 @@ const [notifications, setNotifications] = useState([]);
 const [unseenCount, setUnseenCount] = useState(0);
 const [showNotifications, setShowNotifications] = useState(false);
 const notificationRef = useRef(null);
-const navigate = useNavigate();
+// const navigate = useNavigate();
 
 useEffect(() => {
 const userData = localStorage.getItem("userData");
 
-```
+
 if (userData) {
   try {
     setAdminData(JSON.parse(userData));
@@ -28,7 +28,7 @@ if (userData) {
     role: "Administrator",
   });
 }
-```
+
 
 }, []);
 
@@ -71,7 +71,7 @@ setShowNotifications(false);
 }
 };
 
-```
+
 if (showNotifications) {
   document.addEventListener("mousedown", handleClickOutside);
 }
@@ -79,7 +79,7 @@ if (showNotifications) {
 return () => {
   document.removeEventListener("mousedown", handleClickOutside);
 };
-```
+
 
 }, [showNotifications]);
 

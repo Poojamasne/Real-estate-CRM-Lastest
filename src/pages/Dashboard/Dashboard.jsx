@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from "react";
+﻿import  { useState, useEffect } from "react";
 import { getAssetPath } from "../../utils/assetPath";
 import "./Dashboard.css";
 
@@ -43,6 +43,8 @@ const Dashboard = () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('localStorageUpdated', handleStorageChange);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const loadAllData = () => {

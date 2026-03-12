@@ -48,6 +48,8 @@ const AgentReports = () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('localStorageUpdated', handleStorageChange);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedDate]);
 
   // Filter leads based on date range

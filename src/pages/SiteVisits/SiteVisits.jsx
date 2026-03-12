@@ -45,6 +45,8 @@ const SiteVisits = () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('localStorageUpdated', handleStorageChange);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // Handle window resize

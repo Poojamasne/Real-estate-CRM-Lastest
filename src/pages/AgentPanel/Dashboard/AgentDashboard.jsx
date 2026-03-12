@@ -6,7 +6,7 @@ import "./AgentDashboard.css";
 const totalLeadsIcon = getAssetPath("Total Leads.svg");
 const conformedLeadsIcon = getAssetPath("Conformed Leads.svg");
 const dealsClosedIcon = getAssetPath("Deals Closed.svg");
-const siteVisitsIcon = getAssetPath("Total Leads.svg");
+// const siteVisitsIcon = getAssetPath("Total Leads.svg");
 const calendarIcon = getAssetPath("calendar.svg");
 const dropdownIcon = getAssetPath("dropdown.svg");
 const downloadIcon = getAssetPath("download.svg");
@@ -76,6 +76,8 @@ const AgentDashboard = () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('localStorageUpdated', handleStorageChange);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedDate]);
 
   const loadDashboardData = () => {
@@ -114,8 +116,8 @@ const AgentDashboard = () => {
   // Calculate statistics based on date range
   const calculateStats = (leads, visits) => {
     // Filter leads based on selected date
-    const filteredLeads = filterByDate(leads, selectedDate);
-    const filteredVisits = filterByDate(visits, selectedDate);
+    // const filteredLeads = filterByDate(leads, selectedDate);
+    // const filteredVisits = filterByDate(visits, selectedDate);
 
     // Calculate total deals (Closed leads)
     const totalDeals = leads.filter(lead => 
@@ -273,7 +275,7 @@ const AgentDashboard = () => {
 
   // Get upcoming site visits (next 3 scheduled)
   const getUpcomingVisits = (visits) => {
-    const today = new Date();
+    // const today = new Date();
     const scheduledVisits = visits
       .filter(visit => visit.status === "Scheduled")
       .sort((a, b) => {

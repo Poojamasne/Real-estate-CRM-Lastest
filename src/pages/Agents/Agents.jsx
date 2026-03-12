@@ -36,6 +36,8 @@ const Agents = () => {
   // Load agents and leads from localStorage on component mount
   useEffect(() => {
     loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // Handle window resize
@@ -238,6 +240,8 @@ const Agents = () => {
 
     window.addEventListener('storage', handleStorageChange);
     return () => window.removeEventListener('storage', handleStorageChange);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // Calculate totals

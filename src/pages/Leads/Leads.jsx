@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { getAssetPath } from "../../utils/assetPath";
 import "./Leads.css";
@@ -48,6 +48,8 @@ const Leads = () => {
   // Load data from localStorage on component mount
   useEffect(() => {
     loadLeadsData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // Handle window resize
@@ -55,6 +57,7 @@ const Leads = () => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+
   }, []);
 
   // Load leads data from localStorage
@@ -1026,7 +1029,6 @@ const Leads = () => {
           </div>
         )}
 
-        {/* Footer */}
         <div className="modal-footer">
           <button
             type="button"
@@ -1045,7 +1047,7 @@ const Leads = () => {
     </div>
   </div>
 )}
-      /* Delete Confirmation Modal */
+
       {showDeleteConfirm && (
         <div className="modal-overlay" onClick={() => setShowDeleteConfirm(false)}>
           <div className="delete-confirm-modal" onClick={(e) => e.stopPropagation()}>

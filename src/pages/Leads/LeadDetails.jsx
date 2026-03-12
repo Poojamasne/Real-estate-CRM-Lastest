@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getAssetPath } from '../../utils/assetPath';
+// import { getAssetPath } from '../../utils/assetPath';
 import './LeadDetails.css';
 
 const LeadDetails = () => {
@@ -19,7 +19,8 @@ const LeadDetails = () => {
 
   useEffect(() => {
     loadLeadData();
-  }, [id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [id]);
 
   const loadLeadData = () => {
     setLoading(true);
