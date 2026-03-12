@@ -1,4 +1,4 @@
 // Utility function to resolve asset paths with PUBLIC_URL prefix
-export const getAssetPath = (filename) => {
-  return `${process.env.PUBLIC_URL}/${filename}`;
+export const getAssetPath = (file) => {
+  return `${process.env.PUBLIC_URL}/assets/${file}`;
 };
