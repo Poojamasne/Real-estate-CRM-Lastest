@@ -14,18 +14,18 @@
 
 .admin-reports-page .reports-title{
   font-size: 32px;
-  font-weight: 600;
+  font-weight: 500;
   color: #000000;
   margin: 0 0 4px 0;
   line-height: 1.2;
 }
 
 .admin-reports-page .reports-subtitle{
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 300;
   color: #000000;
   margin: 0;
-  line-height: 1.5;
+  font-family: "Roboto", sans-serif;
 }
 
 /* Common Filter Section */

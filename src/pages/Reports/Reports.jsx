@@ -57,7 +57,6 @@ const Reports = () => {
       window.removeEventListener('localStorageUpdated', handleStorageChange);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-
   }, [selectedDate]);
 
   // Load data from localStorage
@@ -363,15 +362,7 @@ const Reports = () => {
           <h1 className="reports-title">Reports</h1>
           <p className="reports-subtitle">View business insights and performance metrics</p>
         </div>
-        <div className="total-leads-badge" style={{ 
-          background: '#f0f9ff', 
-          padding: '8px 16px', 
-          borderRadius: '20px',
-          color: '#0251ED',
-          fontWeight: '500'
-        }}>
-          Total Leads: {leadsData.length}
-        </div>
+      
       </div>
 
       {/* Common Filter Section */}
