@@ -369,7 +369,7 @@ const AgentDashboard = () => {
               className="agent-date-dropdown-btn"
               onClick={() => setShowDateDropdown(!showDateDropdown)}
             >
-              <img src={calendarIcon} alt="Calendar" className="agent-calendar-icon" />
+              <img src="/assets/calendar.svg" alt="Calendar" className="agent-calendar-icon" />
               {selectedDate}
               <img
                 src={dropdownIcon}
