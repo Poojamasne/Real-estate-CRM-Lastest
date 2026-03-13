@@ -344,15 +344,6 @@ const AgentReports = () => {
           <h1 className="reports-title">Reports</h1>
           <p className="reports-subtitle">View business insights and performance metrics</p>
         </div>
-        <div className="total-leads-badge" style={{ 
-          background: '#f0f9ff', 
-          padding: '8px 16px', 
-          borderRadius: '20px',
-          color: '#0251ED',
-          fontWeight: '500'
-        }}>
-          Total Leads: {totalLeadsCount}
-        </div>
       </div>
 
       {/* Common Filter Section */}

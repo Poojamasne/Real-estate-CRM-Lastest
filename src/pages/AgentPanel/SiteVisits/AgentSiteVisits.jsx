@@ -293,7 +293,7 @@ const AgentSiteVisits = () => {
         <div className="visits-header">
           <div className="visits-header-left">
             <h1 className="visits-title">Site Visits</h1>
-            <p className="visits-subtitle">Schedule and track property visits ({totalVisits} total)</p>
+            <p className="visits-subtitle">Schedule and track property visits</p>
           </div>
         </div>
 
