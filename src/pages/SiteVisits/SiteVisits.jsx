@@ -46,7 +46,6 @@ const SiteVisits = () => {
       window.removeEventListener('localStorageUpdated', handleStorageChange);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-
   }, []);
 
   // Handle window resize
@@ -385,15 +384,20 @@ const SiteVisits = () => {
     <div className="visits-container admin-site-visits-page">
       <div className="visits-content">
         {/* Header Section */}
-        <div className="visits-header">
-          <div className="visits-header-left">
-            <h1 className="visits-title">Site Visits</h1>
-            <p className="visits-subtitle">Schedule and track property visits </p>
-          </div>
-          <button className="add-visit-btn" onClick={openAddModal}>
-            <span>+ Schedule Site Visit</span>
-          </button>
-        </div>
+        {/* Header Section */}
+<div className="visits-header">
+  <div className="visits-header-left">
+    <h1 className="visits-title">Site Visits</h1>
+    <p className="visits-subtitle">Schedule and track property visits</p>
+  </div>
+</div>
+
+{/* Button Row */}
+<div className="add-visit-row">
+  <button className="add-visit-btn" onClick={openAddModal}>
+    <span>+ Schedule Site Visit</span>
+  </button>
+</div>
 
         {/* White Card Section */}
         <div className="visits-card">
@@ -642,7 +646,7 @@ const SiteVisits = () => {
           <div className="site-modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h2>{modalMode === 'add' ? 'Schedule Site Visit' : 'Edit Visit'}</h2>
-              <button className="modal-close" onClick={() => setShowModal(false)}>Ã—</button>
+              <button className="modal-close" onClick={() => setShowModal(false)}>X</button>
             </div>
             
             <form onSubmit={handleSubmit}>

@@ -885,7 +885,7 @@ const Agents = () => {
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h2>{modalMode === 'add' ? 'Add New Agent' : modalMode === 'edit' ? 'Edit Agent' : 'View Agent'}</h2>
-              <button className="modal-close" onClick={() => setShowModal(false)}>Ã—</button>
+              <button className="modal-close" onClick={() => setShowModal(false)}>X</button>
             </div>
             
             <form onSubmit={handleSubmit}>
