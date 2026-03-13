@@ -44,7 +44,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 20px;
+  padding: 15px 40px;
   background: #155dfc;
   border: 1px solid #155dfc;
   border-radius: 8px;
@@ -753,7 +753,7 @@
 
 .admin-leads-page .modal-content{
   width: 781px;
-  height: 750px;
+  height: 630px;
   background: white;
   border-radius: 20px;
   border-width: 1px;
@@ -840,7 +840,7 @@
   padding: 0 14px;
   font-size: 14px;
   font-family: "Poppins", sans-serif;
-  background: #f9fafb;
+  background: white;
   transition: all 0.2s ease;
 }
 

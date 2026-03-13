@@ -519,6 +519,16 @@ const Leads = () => {
             </div>
 
             <div className="filters-group">
+
+                <button
+                className={`delete-btn ${selectedRows.length === 0 ? 'disabled' : ''}`}
+                onClick={handleDeleteSelected}
+                disabled={selectedRows.length === 0}
+              >
+
+                <img src={getAssetPath("deletebutton.svg")} alt="Delete" className="delete-icon" />
+                Delete ({selectedRows.length})
+              </button>
               <div className="filter-dropdown">
                 <button
                   className="filter-btn"
@@ -552,15 +562,7 @@ const Leads = () => {
                 )}
               </div>
 
-              <button
-                className={`delete-btn ${selectedRows.length === 0 ? 'disabled' : ''}`}
-                onClick={handleDeleteSelected}
-                disabled={selectedRows.length === 0}
-              >
-
-                <img src={getAssetPath("deletebutton.svg")} alt="Delete" className="delete-icon" />
-                Delete ({selectedRows.length})
-              </button>
+            
             </div>
           </div>
 
@@ -854,7 +856,8 @@ const Leads = () => {
 {showModal && (
   <div className="modal-overlay" onClick={() => setShowModal(false)}>
     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-      
+
+      {/* Header */}
       <div className="modal-header">
         <h2>{modalMode === "add" ? "Add New Lead" : "Edit Lead"}</h2>
         <button className="modal-close" onClick={() => setShowModal(false)}>×</button>
@@ -862,7 +865,7 @@ const Leads = () => {
 
       <form onSubmit={handleSubmit}>
 
-        {/* Lead Name + Phone */}
+        {/* Row 1 */}
         <div className="form-row">
           <div className="form-group">
             <label>Lead Name *</label>
@@ -889,7 +892,7 @@ const Leads = () => {
           </div>
         </div>
 
-        {/* Location + Email/Budget */}
+        {/* Row 2 */}
         <div className="form-row">
           <div className="form-group">
             <label>Location</label>
@@ -910,7 +913,7 @@ const Leads = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                placeholder="Enter Email"
+                placeholder="Enter Email ID"
               />
             </div>
           ) : (
@@ -921,13 +924,13 @@ const Leads = () => {
                 name="budget"
                 value={formData.budget}
                 onChange={handleInputChange}
-                placeholder="eg ₹75L or ₹35k"
+                placeholder="₹ 35k / mo"
               />
             </div>
           )}
         </div>
 
-        {/* Agent + Followup */}
+        {/* Row 3 */}
         <div className="form-row">
           <div className="form-group">
             <label>Agent Name</label>
@@ -943,16 +946,15 @@ const Leads = () => {
           <div className="form-group">
             <label>Follow-up Date</label>
             <input
-              type="text"
+              type="date"
               name="followUp"
               value={formData.followUp}
               onChange={handleInputChange}
-              placeholder="DD/MM/YYYY"
             />
           </div>
         </div>
 
-        {/* Requirement + Status */}
+        {/* Row 4 */}
         <div className="form-row">
           <div className="form-group">
             <label>Requirement Type</label>
@@ -961,8 +963,8 @@ const Leads = () => {
               value={formData.requirement}
               onChange={handleInputChange}
             >
-              {requirementOptions.map(option => (
-                <option key={option} value={option}>{option}</option>
+              {requirementOptions.map((option) => (
+                <option key={option}>{option}</option>
               ))}
             </select>
           </div>
@@ -975,15 +977,15 @@ const Leads = () => {
               onChange={handleInputChange}
             >
               {statusOptions
-                .filter(s => s !== "All Status")
-                .map(option => (
-                  <option key={option} value={option}>{option}</option>
+                .filter((s) => s !== "All Status")
+                .map((option) => (
+                  <option key={option}>{option}</option>
                 ))}
             </select>
           </div>
         </div>
 
-        {/* Verification section only for Edit */}
+        {/* Verification (Edit Only) */}
         {modalMode === "edit" && (
           <div className="verification-section">
             <label className="verification-title">Contact Verification</label>
@@ -1030,6 +1032,8 @@ const Leads = () => {
           </div>
         )}
 
+
+        {/* Footer */}
         <div className="modal-footer">
           <button
             type="button"

@@ -3,13 +3,14 @@
   min-height: 100vh;
   padding: 20px;
   box-sizing: border-box;
-  background: #edf3fb;
+  /* background: #edf3fb; */
   font-family: "Poppins", sans-serif;
 }
 
 .lead-details-header {
   max-width: 1120px;
   margin: 0 auto 18px;
+  margin-left: 0px;
 }
 
 .breadcrumb {
@@ -54,7 +55,7 @@
 .details-card {
   width: 100%;
   max-width: 1120px;
-  margin: 0 auto;
+  margin: 0 0px;
   padding: 24px 18px 16px;
   background: #ffffff;
   border: 1px solid #d7dce3;
