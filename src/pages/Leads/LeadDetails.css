@@ -4,13 +4,12 @@
   padding: 20px;
   box-sizing: border-box;
   /* background: #edf3fb; */
-  font-family: "Poppins", sans-serif;
+  font-family: "Roboto";
 }
 
 .lead-details-header {
-  max-width: 1120px;
-  margin: 0 auto 18px;
-  margin-left: 0px;
+  width: 358px;
+  height: 59px;
 }
 
 .breadcrumb {

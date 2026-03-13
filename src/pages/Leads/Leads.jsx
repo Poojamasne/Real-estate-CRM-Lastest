@@ -779,12 +779,13 @@ const Leads = () => {
                         </td>
                         <td className="actions-col">
                           <div className="action-buttons">
+                                                        <button className="action-btn" title="Edit" onClick={() => openEditModal(lead)}>
+                              <img src={getAssetPath("edit.svg")} alt="Edit" />
+                            </button>
+
                             <button className="action-btn" title="View" onClick={() => navigate(`/leads/${lead.id}`)}>
 
                               <img src={getAssetPath("eye-icon.svg")} alt="View" />
-                            </button>
-                            <button className="action-btn" title="Edit" onClick={() => openEditModal(lead)}>
-                              <img src={getAssetPath("edit.svg")} alt="Edit" />
                             </button>
                             <button className="action-btn delete" title="Delete" onClick={() => handleDeleteClick(lead)}>
                               <img src={getAssetPath("delete.svg")} alt="Delete" />

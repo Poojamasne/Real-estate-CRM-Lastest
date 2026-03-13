@@ -265,7 +265,7 @@ const AgentLeads = () => {
         <div className="leads-header">
           <div className="leads-header-left">
             <h1 className="leads-title">Leads</h1>
-            <p className="leads-subtitle">Manage and track all leads ({totalLeads} total)</p>
+            <p className="leads-subtitle">Manage and track all leads </p>
           </div>
           <button
             className="add-leads-btn"
