@@ -157,7 +157,7 @@ const AgentDashboard = () => {
         title: "Upcoming Visits",
         value: upcomingVisits.toString(),
         trend: visitsTrend,
-        icon: "/assets/Upcoming Visits.svg",
+        icon: "/assets/Conformed Leads.svg",
         iconBg: "purple",
       },
       {

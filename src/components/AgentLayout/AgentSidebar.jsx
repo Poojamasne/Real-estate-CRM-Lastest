@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { getAssetPath } from "../../utils/assetPath";
 import "./AgentSidebar.css";
 
 const AgentSidebar = ({ isOpen = false, onClose = () => {} }) => {
@@ -14,7 +13,7 @@ const AgentSidebar = ({ isOpen = false, onClose = () => {} }) => {
       localStorage.removeItem("userData");
       localStorage.removeItem("token");
       localStorage.removeItem("tokenExpiry");
-      
+
       // Navigate to login
       navigate("/login");
     } catch (error) {
@@ -56,11 +55,11 @@ const AgentSidebar = ({ isOpen = false, onClose = () => {} }) => {
     <aside className={`agent-sidebar ${isOpen ? "open" : ""}`}>
       <div className="agent-sidebar-outer">
         <div className="agent-logo-section">
-          <NavLink 
-            to="/agent/dashboard" 
-            className="agent-logo-container" 
+          <NavLink
+            to="/agent/dashboard"
+            className="agent-logo-container"
             onClick={() => {
-              window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+              window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
               onClose();
             }}
           >
@@ -117,13 +116,13 @@ const AgentSidebar = ({ isOpen = false, onClose = () => {} }) => {
                     `agent-nav-item ${isActive ? "active" : ""}`
                   }
                   onClick={() => {
-                    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+                    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
                     onClose();
                   }}
                 >
                   <div className="agent-nav-icon-wrapper">
                     <img
-                      src="/assets/placeholder-icon.svg"
+                      src={item.icon}
                       alt={item.name}
                       className="agent-nav-icon"
                       onError={(e) => {
@@ -148,4 +147,3 @@ const AgentSidebar = ({ isOpen = false, onClose = () => {} }) => {
 };
 
 export default AgentSidebar;
-
