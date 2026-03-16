@@ -449,8 +449,8 @@
 }
 
 .admin-site-visits-page .action-btn img{
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   object-fit: contain;
 }
 
@@ -856,4 +856,22 @@
   .admin-site-visits-page .delete-confirm-btn{
     width: 100%;
   }
+}
+
+@media (max-width: 768px){
+
+.admin-site-visits-page .search-container{
+  width: 100%;
+}
+
+.admin-site-visits-page .search-container input{
+  width: 100%;
+}
+
+.admin-site-visits-page .delete-btn{
+  width: 100%;
+  justify-content: center;
+  height: 42px;
+}
+
 }

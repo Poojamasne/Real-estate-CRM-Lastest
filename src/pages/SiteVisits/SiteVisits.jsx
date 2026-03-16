@@ -7,14 +7,15 @@ const SiteVisits = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [showModal, setShowModal] = useState(false);
-  const [modalMode, setModalMode] = useState('add');
+  const [modalMode, setModalMode] = useState("add");
   const [currentVisit, setCurrentVisit] = useState(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [visitToDelete, setVisitToDelete] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [errors, setErrors] = useState({});
 
   // Form state for add/edit
   const [formData, setFormData] = useState({
@@ -32,18 +33,18 @@ const SiteVisits = () => {
   // Load data from localStorage on component mount
   useEffect(() => {
     loadData();
-    
+
     // Add event listener for localStorage changes
     const handleStorageChange = () => {
       loadData();
     };
-    
-    window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('localStorageUpdated', handleStorageChange);
-    
+
+    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("localStorageUpdated", handleStorageChange);
+
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('localStorageUpdated', handleStorageChange);
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("localStorageUpdated", handleStorageChange);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -51,8 +52,8 @@ const SiteVisits = () => {
   // Handle window resize
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // Load data from localStorage
@@ -60,14 +61,14 @@ const SiteVisits = () => {
     setLoading(true);
     try {
       // Load agents data for dropdown
-      const storedAgents = localStorage.getItem('agentsData');
+      const storedAgents = localStorage.getItem("agentsData");
       if (storedAgents) {
         const agents = JSON.parse(storedAgents);
         setAgentsData(agents);
       }
 
       // Load site visits data
-      const storedVisits = localStorage.getItem('siteVisitsData');
+      const storedVisits = localStorage.getItem("siteVisitsData");
       if (storedVisits) {
         const parsedVisits = JSON.parse(storedVisits);
         setVisitsData(parsedVisits);
@@ -76,7 +77,7 @@ const SiteVisits = () => {
         initializeSampleData();
       }
     } catch (error) {
-      console.error('Error loading data from localStorage:', error);
+      console.error("Error loading data from localStorage:", error);
       initializeSampleData();
     } finally {
       setLoading(false);
@@ -139,11 +140,11 @@ const SiteVisits = () => {
   // Save to localStorage
   const saveToLocalStorage = (data) => {
     try {
-      localStorage.setItem('siteVisitsData', JSON.stringify(data));
+      localStorage.setItem("siteVisitsData", JSON.stringify(data));
       // Dispatch custom event to notify other components
-      window.dispatchEvent(new Event('localStorageUpdated'));
+      window.dispatchEvent(new Event("localStorageUpdated"));
     } catch (error) {
-      console.error('Error saving to localStorage:', error);
+      console.error("Error saving to localStorage:", error);
     }
   };
 
@@ -159,28 +160,33 @@ const SiteVisits = () => {
 
   // Filter visits based on search
   const filteredVisits = visitsData.filter((visit) => {
-    const matchesSearch = searchQuery === "" ||
-      (visit.clientName || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (visit.propertyName || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (visit.agent || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (visit.visitDate || '').includes(searchQuery) ||
-      (visit.visitTime || '').includes(searchQuery);
-    
+    const matchesSearch =
+      searchQuery === "" ||
+      (visit.clientName || "")
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase()) ||
+      (visit.propertyName || "")
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase()) ||
+      (visit.agent || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (visit.visitDate || "").includes(searchQuery) ||
+      (visit.visitTime || "").includes(searchQuery);
+
     return matchesSearch;
   });
 
   // Sort visits
   const sortedVisits = [...filteredVisits].sort((a, b) => {
     if (!sortConfig.key) return 0;
-    
+
     const aValue = a[sortConfig.key];
     const bValue = b[sortConfig.key];
-    
+
     if (aValue < bValue) {
-      return sortConfig.direction === 'asc' ? -1 : 1;
+      return sortConfig.direction === "asc" ? -1 : 1;
     }
     if (aValue > bValue) {
-      return sortConfig.direction === 'asc' ? 1 : -1;
+      return sortConfig.direction === "asc" ? 1 : -1;
     }
     return 0;
   });
@@ -230,17 +236,21 @@ const SiteVisits = () => {
       let newVisitsData;
       if (visitToDelete.multiple) {
         // Delete multiple visits
-        newVisitsData = visitsData.filter(visit => !visitToDelete.ids.includes(visit.id));
+        newVisitsData = visitsData.filter(
+          (visit) => !visitToDelete.ids.includes(visit.id),
+        );
         setSelectedRows([]);
         setSelectAll(false);
       } else {
         // Delete single visit
-        newVisitsData = visitsData.filter(visit => visit.id !== visitToDelete.id);
+        newVisitsData = visitsData.filter(
+          (visit) => visit.id !== visitToDelete.id,
+        );
       }
       updateVisitsData(newVisitsData);
       setShowDeleteConfirm(false);
       setVisitToDelete(null);
-      
+
       // Adjust current page if necessary
       const newTotalPages = Math.ceil(newVisitsData.length / itemsPerPage);
       if (currentPage > newTotalPages && newTotalPages > 0) {
@@ -250,15 +260,16 @@ const SiteVisits = () => {
   };
 
   const handleSort = (key) => {
-    let direction = 'asc';
-    if (sortConfig.key === key && sortConfig.direction === 'asc') {
-      direction = 'desc';
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
     }
     setSortConfig({ key, direction });
   };
 
   const openAddModal = () => {
-    setModalMode('add');
+  setErrors({});
+    setModalMode("add");
     setFormData({
       clientName: "",
       propertyName: "",
@@ -271,7 +282,7 @@ const SiteVisits = () => {
   };
 
   const openEditModal = (visit) => {
-    setModalMode('edit');
+    setModalMode("edit");
     setCurrentVisit(visit);
     setFormData({
       clientName: visit.clientName,
@@ -290,53 +301,99 @@ const SiteVisits = () => {
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+  const { name, value } = e.target;
+
+  setFormData((prev) => ({
+    ...prev,
+    [name]: value,
+  }));
+
+  // Remove error when user starts typing
+  setErrors((prev) => ({
+    ...prev,
+    [name]: "",
+  }));
+};
+
+  const validateForm = () => {
+    let newErrors = {};
+
+    if (!formData.clientName.trim()) {
+  newErrors.clientName = "Client name is required";
+} else if (!/^[A-Za-z\s]+$/.test(formData.clientName)) {
+  newErrors.clientName = "Client name should contain only letters";
+}
+
+    if (!formData.propertyName.trim()) {
+      newErrors.propertyName = "Property name is required";
+    }
+const today = new Date().toISOString().split("T")[0];
+
+if (!formData.visitDate) {
+  newErrors.visitDate = "Visit date is required";
+} else if (formData.visitDate < today) {
+  newErrors.visitDate = "Visit date cannot be in the past";
+}
+
+    if (!formData.visitTime.trim()) {
+      newErrors.visitTime = "Visit time is required";
+    }
+
+    if (!formData.agent.trim()) {
+      newErrors.agent = "Agent name is required";
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
+    if (!validateForm()) return;
+
     let newVisitsData;
-    
-    if (modalMode === 'add') {
-      // Add new visit
-      const newId = visitsData.length > 0 ? Math.max(...visitsData.map((v) => v.id)) + 1 : 1;
+
+    if (modalMode === "add") {
+      const newId =
+        visitsData.length > 0
+          ? Math.max(...visitsData.map((v) => v.id)) + 1
+          : 1;
+
       const newVisit = {
         ...formData,
         id: newId,
       };
+
       newVisitsData = [...visitsData, newVisit];
-    } else if (modalMode === 'edit') {
-      // Edit existing visit
-      newVisitsData = visitsData.map(visit => 
-        visit.id === currentVisit.id ? { 
-          ...formData, 
-          id: currentVisit.id,
-        } : visit
+    } else if (modalMode === "edit") {
+      newVisitsData = visitsData.map((visit) =>
+        visit.id === currentVisit.id
+          ? { ...formData, id: currentVisit.id }
+          : visit,
       );
     }
-    
+
     updateVisitsData(newVisitsData);
+
     setShowModal(false);
+    setErrors({});
   };
 
   // Get status color
   const getStatusColor = (status) => {
-    switch(status) {
-      case 'Scheduled':
-        return '#0065D0';
-      case 'Completed':
-        return '#0A7B0A';
-      case 'Cancelled':
-        return '#D92D20';
-      case 'Rescheduled':
-        return '#B45B0A';
+    switch (status) {
+      case "Scheduled":
+        return "#0065D0";
+      case "Completed":
+        return "#0A7B0A";
+      case "Cancelled":
+        return "#D92D20";
+      case "Rescheduled":
+        return "#B45B0A";
       default:
-        return '#374151';
+        return "#374151";
     }
   };
 
@@ -344,23 +401,31 @@ const SiteVisits = () => {
   const getPageNumbers = () => {
     const pages = [];
     const maxVisiblePages = windowWidth < 640 ? 3 : 5;
-    
+
     if (totalPages <= maxVisiblePages) {
       for (let i = 1; i <= totalPages; i++) pages.push(i);
     } else {
       if (currentPage <= 3) {
-        pages.push(1, 2, 3, 4, 5, '...', totalPages);
+        pages.push(1, 2, 3, 4, 5, "...", totalPages);
       } else if (currentPage >= totalPages - 2) {
-        pages.push(1, '...', totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+        pages.push(
+          1,
+          "...",
+          totalPages - 4,
+          totalPages - 3,
+          totalPages - 2,
+          totalPages - 1,
+          totalPages,
+        );
       } else {
         pages.push(
           1,
-          '...',
+          "...",
           currentPage - 1,
           currentPage,
           currentPage + 1,
-          '...',
-          totalPages
+          "...",
+          totalPages,
         );
       }
     }
@@ -385,26 +450,32 @@ const SiteVisits = () => {
       <div className="visits-content">
         {/* Header Section */}
         {/* Header Section */}
-<div className="visits-header">
-  <div className="visits-header-left">
-    <h1 className="visits-title">Site Visits</h1>
-    <p className="visits-subtitle">Schedule and track property visits</p>
-  </div>
-</div>
+        <div className="visits-header">
+          <div className="visits-header-left">
+            <h1 className="visits-title">Site Visits</h1>
+            <p className="visits-subtitle">
+              Schedule and track property visits
+            </p>
+          </div>
+        </div>
 
-{/* Button Row */}
-<div className="add-visit-row">
-  <button className="add-visit-btn" onClick={openAddModal}>
-    <span>+ Schedule Site Visit</span>
-  </button>
-</div>
+        {/* Button Row */}
+        <div className="add-visit-row">
+          <button className="add-visit-btn" onClick={openAddModal}>
+            <span>+ Schedule Site Visit</span>
+          </button>
+        </div>
 
         {/* White Card Section */}
         <div className="visits-card">
           {/* Search Row */}
           <div className="visits-filters">
             <div className="search-container">
-              <img src={getAssetPath("search.svg")} alt="Search" className="search-icon" />
+              <img
+                src={getAssetPath("search.svg")}
+                alt="Search"
+                className="search-icon"
+              />
               <input
                 type="text"
                 placeholder="Search by client name, property, agent..."
@@ -415,12 +486,15 @@ const SiteVisits = () => {
             </div>
 
             <button
-              className={`delete-btn ${selectedRows.length === 0 ? 'disabled' : ''}`}
+              className={`delete-btn ${selectedRows.length === 0 ? "disabled" : ""}`}
               onClick={handleDeleteSelected}
               disabled={selectedRows.length === 0}
             >
-
-              <img src={getAssetPath("deletebutton.svg")} alt="Delete" className="delete-icon" />
+              <img
+                src={getAssetPath("deletebutton.svg")}
+                alt="Delete"
+                className="delete-icon"
+              />
               Delete ({selectedRows.length})
             </button>
           </div>
@@ -438,97 +512,99 @@ const SiteVisits = () => {
                       onChange={handleSelectAll}
                     />
                   </th>
-                  <th className="client-name-col" onClick={() => handleSort('clientName')}>
+                  <th
+                    className="client-name-col"
+                    onClick={() => handleSort("clientName")}
+                  >
                     <div className="th-content">
                       <span>Client Name</span>
                       <div className="sort-icons">
-                        <img 
-
-                          src={getAssetPath("ChevronLeft.svg")} 
-                          alt="Sort" 
-                          className={`sort-icon ${sortConfig.key === 'clientName' && sortConfig.direction === 'asc' ? 'active' : ''}`}
+                        <img
+                          src={getAssetPath("ChevronLeft.svg")}
+                          alt="Sort"
+                          className={`sort-icon ${sortConfig.key === "clientName" && sortConfig.direction === "asc" ? "active" : ""}`}
                         />
-                        <img 
-
-                          src={getAssetPath("ChevronRight.svg")} 
-                          alt="Sort" 
-                          className={`sort-icon ${sortConfig.key === 'clientName' && sortConfig.direction === 'desc' ? 'active' : ''}`}
+                        <img
+                          src={getAssetPath("ChevronRight.svg")}
+                          alt="Sort"
+                          className={`sort-icon ${sortConfig.key === "clientName" && sortConfig.direction === "desc" ? "active" : ""}`}
                         />
                       </div>
                     </div>
                   </th>
-                  <th className="property-name-col" onClick={() => handleSort('propertyName')}>
+                  <th
+                    className="property-name-col"
+                    onClick={() => handleSort("propertyName")}
+                  >
                     <div className="th-content">
                       <span>Property Name</span>
                       <div className="sort-icons">
-                        <img 
-
-                          src={getAssetPath("ChevronLeft.svg")} 
-                          alt="Sort" 
-                          className={`sort-icon ${sortConfig.key === 'propertyName' && sortConfig.direction === 'asc' ? 'active' : ''}`}
+                        <img
+                          src={getAssetPath("ChevronLeft.svg")}
+                          alt="Sort"
+                          className={`sort-icon ${sortConfig.key === "propertyName" && sortConfig.direction === "asc" ? "active" : ""}`}
                         />
-                        <img 
-
-                          src={getAssetPath("ChevronRight.svg")} 
-                          alt="Sort" 
-                          className={`sort-icon ${sortConfig.key === 'propertyName' && sortConfig.direction === 'desc' ? 'active' : ''}`}
+                        <img
+                          src={getAssetPath("ChevronRight.svg")}
+                          alt="Sort"
+                          className={`sort-icon ${sortConfig.key === "propertyName" && sortConfig.direction === "desc" ? "active" : ""}`}
                         />
                       </div>
                     </div>
                   </th>
-                  <th className="visit-date-col" onClick={() => handleSort('visitDate')}>
+                  <th
+                    className="visit-date-col"
+                    onClick={() => handleSort("visitDate")}
+                  >
                     <div className="th-content">
                       <span>Visit Date</span>
                       <div className="sort-icons">
-                        <img 
-
+                        <img
                           src={getAssetPath("ChevronLeft.svg")}
-                          alt="Sort" 
-                          className={`sort-icon ${sortConfig.key === 'visitDate' && sortConfig.direction === 'asc' ? 'active' : ''}`}
+                          alt="Sort"
+                          className={`sort-icon ${sortConfig.key === "visitDate" && sortConfig.direction === "asc" ? "active" : ""}`}
                         />
-                        <img 
-
-                          src={getAssetPath("ChevronRight.svg")} 
-                          alt="Sort" 
-                          className={`sort-icon ${sortConfig.key === 'visitDate' && sortConfig.direction === 'desc' ? 'active' : ''}`}
+                        <img
+                          src={getAssetPath("ChevronRight.svg")}
+                          alt="Sort"
+                          className={`sort-icon ${sortConfig.key === "visitDate" && sortConfig.direction === "desc" ? "active" : ""}`}
                         />
                       </div>
                     </div>
                   </th>
-                  <th className="visit-time-col" onClick={() => handleSort('visitTime')}>
+                  <th
+                    className="visit-time-col"
+                    onClick={() => handleSort("visitTime")}
+                  >
                     <div className="th-content">
                       <span>Visit Time</span>
                       <div className="sort-icons">
-                        <img 
-
-                          src={getAssetPath("ChevronLeft.svg")} 
-                          alt="Sort" 
-                          className={`sort-icon ${sortConfig.key === 'visitTime' && sortConfig.direction === 'asc' ? 'active' : ''}`}
+                        <img
+                          src={getAssetPath("ChevronLeft.svg")}
+                          alt="Sort"
+                          className={`sort-icon ${sortConfig.key === "visitTime" && sortConfig.direction === "asc" ? "active" : ""}`}
                         />
-                        <img 
-
-                          src={getAssetPath("ChevronRight.svg")} 
-                          alt="Sort" 
-                          className={`sort-icon ${sortConfig.key === 'visitTime' && sortConfig.direction === 'desc' ? 'active' : ''}`}
+                        <img
+                          src={getAssetPath("ChevronRight.svg")}
+                          alt="Sort"
+                          className={`sort-icon ${sortConfig.key === "visitTime" && sortConfig.direction === "desc" ? "active" : ""}`}
                         />
                       </div>
                     </div>
                   </th>
-                  <th className="agent-col" onClick={() => handleSort('agent')}>
+                  <th className="agent-col" onClick={() => handleSort("agent")}>
                     <div className="th-content">
                       <span>Agent</span>
                       <div className="sort-icons">
-                        <img 
-
-                          src={getAssetPath("ChevronLeft.svg")} 
-                          alt="Sort" 
-                          className={`sort-icon ${sortConfig.key === 'agent' && sortConfig.direction === 'asc' ? 'active' : ''}`}
+                        <img
+                          src={getAssetPath("ChevronLeft.svg")}
+                          alt="Sort"
+                          className={`sort-icon ${sortConfig.key === "agent" && sortConfig.direction === "asc" ? "active" : ""}`}
                         />
-                        <img 
-
-                          src={getAssetPath("ChevronRight.svg")} 
-                          alt="Sort" 
-                          className={`sort-icon ${sortConfig.key === 'agent' && sortConfig.direction === 'desc' ? 'active' : ''}`}
+                        <img
+                          src={getAssetPath("ChevronRight.svg")}
+                          alt="Sort"
+                          className={`sort-icon ${sortConfig.key === "agent" && sortConfig.direction === "desc" ? "active" : ""}`}
                         />
                       </div>
                     </div>
@@ -556,27 +632,44 @@ const SiteVisits = () => {
                           />
                         </td>
                         <td className="client-name-col">
-                          <span className="client-name">{visit.clientName}</span>
+                          <span className="client-name">
+                            {visit.clientName}
+                          </span>
                         </td>
                         <td className="property-name-col">
-                          <span className="property-name">{visit.propertyName}</span>
+                          <span className="property-name">
+                            {visit.propertyName}
+                          </span>
                         </td>
                         <td className="visit-date-col">{visit.visitDate}</td>
                         <td className="visit-time-col">{visit.visitTime}</td>
                         <td className="agent-col">{visit.agent}</td>
                         <td className="status-col">
-                          <span className="status-text" style={{ color: statusColor }}>
+                          <span
+                            className="status-text"
+                            style={{ color: statusColor }}
+                          >
                             {visit.status}
                           </span>
                         </td>
                         <td className="actions-col">
                           <div className="action-buttons">
-                            <button className="action-btn" title="Edit" onClick={() => openEditModal(visit)}>
-
+                            <button
+                              className="action-btn"
+                              title="Edit"
+                              onClick={() => openEditModal(visit)}
+                            >
                               <img src={getAssetPath("edit.svg")} alt="Edit" />
                             </button>
-                            <button className="action-btn delete" title="Delete" onClick={() => handleDeleteClick(visit)}>
-                              <img src={getAssetPath("delete.svg")} alt="Delete" />
+                            <button
+                              className="action-btn delete"
+                              title="Delete"
+                              onClick={() => handleDeleteClick(visit)}
+                            >
+                              <img
+                                src={getAssetPath("delete.svg")}
+                                alt="Delete"
+                              />
                             </button>
                           </div>
                         </td>
@@ -598,7 +691,8 @@ const SiteVisits = () => {
           {totalVisits > 0 && (
             <div className="pagination">
               <div className="pagination-info">
-                Showing {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, totalVisits)} Out of {totalVisits}
+                Showing {indexOfFirstItem + 1}-
+                {Math.min(indexOfLastItem, totalVisits)} Out of {totalVisits}
               </div>
               <div className="pagination-controls">
                 <button
@@ -606,24 +700,25 @@ const SiteVisits = () => {
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
                 >
-
                   <img src={getAssetPath("PreviousIcon.svg")} alt="Previous" />
                   <span>Previous</span>
                 </button>
 
-                {getPageNumbers().map((page, index) => (
-                  page === '...' ? (
-                    <span key={index} className="pagination-ellipsis">...</span>
+                {getPageNumbers().map((page, index) =>
+                  page === "..." ? (
+                    <span key={index} className="pagination-ellipsis">
+                      ...
+                    </span>
                   ) : (
                     <button
                       key={index}
-                      className={`pagination-number ${currentPage === page ? 'active' : ''}`}
+                      className={`pagination-number ${currentPage === page ? "active" : ""}`}
                       onClick={() => handlePageChange(page)}
                     >
                       {page}
                     </button>
-                  )
-                ))}
+                  ),
+                )}
 
                 <button
                   className="pagination-nav"
@@ -643,12 +738,26 @@ const SiteVisits = () => {
       {/* Add/Edit Modal */}
       {showModal && (
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
-          <div className="site-modal-content" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="site-modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="modal-header">
-              <h2>{modalMode === 'add' ? 'Schedule Site Visit' : 'Edit Visit'}</h2>
-              <button className="modal-close" onClick={() => setShowModal(false)}>X</button>
+              <h2>
+                {modalMode === "add" ? "Schedule Site Visit" : "Edit Visit"}
+              </h2>
+              <button
+                className="modal-close"
+                onClick={() => setShowModal(false)}
+              >
+                <img
+                  src={getAssetPath("Cross Icon.svg")}
+                  alt="close"
+                  className="close-icon"
+                />
+              </button>
             </div>
-            
+
             <form onSubmit={handleSubmit}>
               <div className="modal-body">
                 <div className="form-row single">
@@ -660,8 +769,11 @@ const SiteVisits = () => {
                       value={formData.clientName}
                       onChange={handleInputChange}
                       placeholder="Enter Client Name"
-                      required
                     />
+
+                    {errors.clientName && (
+                      <span className="error-text">{errors.clientName}</span>
+                    )}
                   </div>
                 </div>
 
@@ -674,8 +786,11 @@ const SiteVisits = () => {
                       value={formData.propertyName}
                       onChange={handleInputChange}
                       placeholder="Enter Property Name"
-                      required
                     />
+
+                    {errors.propertyName && (
+                      <span className="error-text">{errors.propertyName}</span>
+                    )}
                   </div>
                 </div>
 
@@ -683,78 +798,74 @@ const SiteVisits = () => {
                   <div className="form-group">
                     <label>Visit Date *</label>
                     <input
-                      type="text"
+                      type="date"
                       name="visitDate"
                       value={formData.visitDate}
                       onChange={handleInputChange}
-                      placeholder="DD/MM/YYYY"
-                      required
                     />
+
+                    {errors.visitDate && (
+                      <span className="error-text">{errors.visitDate}</span>
+                    )}
                   </div>
-                  
+
                   <div className="form-group">
                     <label>Visit Time *</label>
                     <input
-                      type="text"
+                      type="time"
                       name="visitTime"
                       value={formData.visitTime}
                       onChange={handleInputChange}
-                      placeholder="-- / --"
-                      required
                     />
+
+                    {errors.visitTime && (
+                      <span className="error-text">{errors.visitTime}</span>
+                    )}
                   </div>
                 </div>
 
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>Agent Name *</label>
-                    {agentsData.length > 0 ? (
-                      <select
-                        name="agent"
-                        value={formData.agent}
-                        onChange={handleInputChange}
-                        required
-                      >
-                        <option value="">Select Agent</option>
-                        {agentsData.map(agent => (
-                          <option key={agent.id} value={agent.name}>{agent.name}</option>
-                        ))}
-                      </select>
-                    ) : (
-                      <input
-                        type="text"
-                        name="agent"
-                        value={formData.agent}
-                        onChange={handleInputChange}
-                        placeholder="Enter Agent Name"
-                        required
-                      />
-                    )}
-                  </div>
-                  
-                  <div className="form-group">
-                    <label>Status *</label>
+                <div className="form-group">
+                  <label>Agent Name *</label>
+
+                  {agentsData.length > 0 ? (
                     <select
-                      name="status"
-                      value={formData.status}
+                      name="agent"
+                      value={formData.agent}
                       onChange={handleInputChange}
-                      required
                     >
-                      <option value="Scheduled">Scheduled</option>
-                      <option value="Completed">Completed</option>
-                      <option value="Cancelled">Cancelled</option>
-                      <option value="Rescheduled">Rescheduled</option>
+                      <option value="">Select Agent</option>
+                      {agentsData.map((agent) => (
+                        <option key={agent.id} value={agent.name}>
+                          {agent.name}
+                        </option>
+                      ))}
                     </select>
-                  </div>
+                  ) : (
+                    <input
+                      type="text"
+                      name="agent"
+                      value={formData.agent}
+                      onChange={handleInputChange}
+                      placeholder="Enter Agent Name"
+                    />
+                  )}
+
+                  {errors.agent && (
+                    <span className="error-text">{errors.agent}</span>
+                  )}
                 </div>
               </div>
 
               <div className="modal-footer">
-                <button type="button" className="cancel-btn" onClick={() => setShowModal(false)}>
+                <button
+                  type="button"
+                  className="cancel-btn"
+                  onClick={() => setShowModal(false)}
+                >
                   Cancel
                 </button>
                 <button type="submit" className="submit-btn">
-                  {modalMode === 'add' ? 'Schedule Site Visit' : 'Update Visit'}
+                  {modalMode === "add" ? "Schedule Site Visit" : "Update Visit"}
                 </button>
               </div>
             </form>
@@ -764,12 +875,24 @@ const SiteVisits = () => {
 
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
-        <div className="modal-overlay" onClick={() => setShowDeleteConfirm(false)}>
-          <div className="delete-confirm-modal" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="modal-overlay"
+          onClick={() => setShowDeleteConfirm(false)}
+        >
+          <div
+            className="delete-confirm-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
             <h3>Confirm Delete</h3>
-            <p>Are you sure you want to delete {visitToDelete?.multiple ? 'these visits' : 'this visit'}?</p>
+            <p>
+              Are you sure you want to delete{" "}
+              {visitToDelete?.multiple ? "these visits" : "this visit"}?
+            </p>
             <div className="modal-footer">
-              <button className="cancel-btn" onClick={() => setShowDeleteConfirm(false)}>
+              <button
+                className="cancel-btn"
+                onClick={() => setShowDeleteConfirm(false)}
+              >
                 Cancel
               </button>
               <button className="delete-confirm-btn" onClick={confirmDelete}>
@@ -784,5 +907,3 @@ const SiteVisits = () => {
 };
 
 export default SiteVisits;
-
-

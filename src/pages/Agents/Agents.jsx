@@ -8,11 +8,13 @@ const Agents = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
-  const [specializationFilter, setSpecializationFilter] = useState("All Specializations");
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+  const [specializationFilter, setSpecializationFilter] = useState(
+    "All Specializations",
+  );
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [showModal, setShowModal] = useState(false);
-  const [modalMode, setModalMode] = useState('add');
+  const [modalMode, setModalMode] = useState("add");
   const [currentAgent, setCurrentAgent] = useState(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [agentToDelete, setAgentToDelete] = useState(null);
@@ -27,7 +29,7 @@ const Agents = () => {
     specialization: "Residential Sales",
     experience: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
 
   const [agentsData, setAgentsData] = useState([]);
@@ -37,13 +39,13 @@ const Agents = () => {
   useEffect(() => {
     loadData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
+  }, []);
 
   // Handle window resize
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -52,7 +54,7 @@ const Agents = () => {
     setLoading(true);
     try {
       // Load leads data
-      const storedLeads = localStorage.getItem('leadsData');
+      const storedLeads = localStorage.getItem("leadsData");
       let leads = [];
       if (storedLeads) {
         leads = JSON.parse(storedLeads);
@@ -60,7 +62,7 @@ const Agents = () => {
       setLeadsData(leads);
 
       // Load agents data
-      const storedAgents = localStorage.getItem('agentsData');
+      const storedAgents = localStorage.getItem("agentsData");
       if (storedAgents) {
         const parsedAgents = JSON.parse(storedAgents);
         // Calculate leads and deals for each agent based on leadsData
@@ -71,7 +73,7 @@ const Agents = () => {
         initializeSampleData(leads);
       }
     } catch (error) {
-      console.error('Error loading data from localStorage:', error);
+      console.error("Error loading data from localStorage:", error);
       initializeSampleData([]);
     } finally {
       setLoading(false);
@@ -80,21 +82,22 @@ const Agents = () => {
 
   // Calculate leads and deals for each agent based on leadsData
   const calculateAgentStats = (agents, leads) => {
-    return agents.map(agent => {
+    return agents.map((agent) => {
       // Count leads assigned to this agent
-      const agentLeads = leads.filter(lead => 
-        lead.agent && lead.agent.toLowerCase() === agent.name.toLowerCase()
+      const agentLeads = leads.filter(
+        (lead) =>
+          lead.agent && lead.agent.toLowerCase() === agent.name.toLowerCase(),
       );
-      
+
       // Count deals (leads with status 'Verified' or 'Converted')
-      const agentDeals = agentLeads.filter(lead => 
-        lead.status === 'Verified' || lead.status === 'Converted'
+      const agentDeals = agentLeads.filter(
+        (lead) => lead.status === "Verified" || lead.status === "Converted",
       );
 
       return {
         ...agent,
         totalLeads: agentLeads.length,
-        totalDeals: agentDeals.length
+        totalDeals: agentDeals.length,
       };
     });
   };
@@ -110,7 +113,7 @@ const Agents = () => {
         location: "Kothrud",
         specialization: "Residential Sales",
         experience: 14,
-        password: ""
+        password: "",
       },
       {
         id: 2,
@@ -120,7 +123,7 @@ const Agents = () => {
         location: "Nanded City",
         specialization: "Commercial Sales",
         experience: 12,
-        password: ""
+        password: "",
       },
       {
         id: 3,
@@ -130,7 +133,7 @@ const Agents = () => {
         location: "Koregaon Park",
         specialization: "Rental Sales",
         experience: 15,
-        password: ""
+        password: "",
       },
       {
         id: 4,
@@ -140,7 +143,7 @@ const Agents = () => {
         location: "Indiranagar",
         specialization: "Luxury Properties",
         experience: 11,
-        password: ""
+        password: "",
       },
       {
         id: 5,
@@ -150,7 +153,7 @@ const Agents = () => {
         location: "Wakad",
         specialization: "Commercial Sales",
         experience: 8,
-        password: ""
+        password: "",
       },
       {
         id: 6,
@@ -160,7 +163,7 @@ const Agents = () => {
         location: "Baner",
         specialization: "Residential Sales",
         experience: 20,
-        password: ""
+        password: "",
       },
       {
         id: 7,
@@ -170,7 +173,7 @@ const Agents = () => {
         location: "Hinjewadi",
         specialization: "Rental Sales",
         experience: 6,
-        password: ""
+        password: "",
       },
       {
         id: 8,
@@ -180,7 +183,7 @@ const Agents = () => {
         location: "Aundh",
         specialization: "Luxury Properties",
         experience: 10,
-        password: ""
+        password: "",
       },
       {
         id: 9,
@@ -190,8 +193,8 @@ const Agents = () => {
         location: "Viman Nagar",
         specialization: "Commercial Sales",
         experience: 9,
-        password: ""
-      }
+        password: "",
+      },
     ];
 
     // Calculate stats based on leads
@@ -204,10 +207,12 @@ const Agents = () => {
   const saveToLocalStorage = (data) => {
     try {
       // Remove calculated fields before saving to avoid duplication
-      const dataToSave = data.map(({ totalLeads, totalDeals, ...agent }) => agent);
-      localStorage.setItem('agentsData', JSON.stringify(dataToSave));
+      const dataToSave = data.map(
+        ({ totalLeads, totalDeals, ...agent }) => agent,
+      );
+      localStorage.setItem("agentsData", JSON.stringify(dataToSave));
     } catch (error) {
-      console.error('Error saving to localStorage:', error);
+      console.error("Error saving to localStorage:", error);
     }
   };
 
@@ -219,69 +224,80 @@ const Agents = () => {
 
   // Refresh agent stats based on latest leads data
   const refreshAgentStats = () => {
-    const storedLeads = localStorage.getItem('leadsData');
+    const storedLeads = localStorage.getItem("leadsData");
     if (storedLeads) {
       const leads = JSON.parse(storedLeads);
       setLeadsData(leads);
-      
-      setAgentsData(prevAgents => 
-        calculateAgentStats(prevAgents, leads)
-      );
+
+      setAgentsData((prevAgents) => calculateAgentStats(prevAgents, leads));
     }
   };
 
   // Listen for leads data changes
   useEffect(() => {
     const handleStorageChange = (e) => {
-      if (e.key === 'leadsData') {
+      if (e.key === "leadsData") {
         refreshAgentStats();
       }
     };
 
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
+  }, []);
 
   // Calculate totals
   const totalAgents = agentsData.length;
-  const totalLeads = agentsData.reduce((sum, agent) => sum + (agent.totalLeads || 0), 0);
-  const totalDeals = agentsData.reduce((sum, agent) => sum + (agent.totalDeals || 0), 0);
+  const totalLeads = agentsData.reduce(
+    (sum, agent) => sum + (agent.totalLeads || 0),
+    0,
+  );
+  const totalDeals = agentsData.reduce(
+    (sum, agent) => sum + (agent.totalDeals || 0),
+    0,
+  );
 
   const itemsPerPage = 10;
   const totalPages = Math.ceil(totalAgents / itemsPerPage);
 
   // Specialization filter options
-  const specializationOptions = ['All Specializations', 'Residential Sales', 'Commercial Sales', 'Rental Sales', 'Luxury Properties'];
+  const specializationOptions = [
+    "All Specializations",
+    "Residential Sales",
+    "Commercial Sales",
+    "Rental Sales",
+    "Luxury Properties",
+  ];
 
   // Filter agents based on search and specialization filter
   const filteredAgents = agentsData.filter((agent) => {
-    const matchesSearch = searchQuery === "" ||
+    const matchesSearch =
+      searchQuery === "" ||
       agent.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       agent.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
       agent.phone.includes(searchQuery) ||
       agent.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
       agent.specialization.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    const matchesSpecialization = 
-      specializationFilter === 'All Specializations' || 
+
+    const matchesSpecialization =
+      specializationFilter === "All Specializations" ||
       agent.specialization === specializationFilter;
-    
+
     return matchesSearch && matchesSpecialization;
   });
 
   // Sort agents
   const sortedAgents = [...filteredAgents].sort((a, b) => {
     if (!sortConfig.key) return 0;
-    
+
     const aValue = a[sortConfig.key];
     const bValue = b[sortConfig.key];
-    
+
     if (aValue < bValue) {
-      return sortConfig.direction === 'asc' ? -1 : 1;
+      return sortConfig.direction === "asc" ? -1 : 1;
     }
     if (aValue > bValue) {
-      return sortConfig.direction === 'asc' ? 1 : -1;
+      return sortConfig.direction === "asc" ? 1 : -1;
     }
     return 0;
   });
@@ -331,17 +347,21 @@ const Agents = () => {
       let newAgentsData;
       if (agentToDelete.multiple) {
         // Delete multiple agents
-        newAgentsData = agentsData.filter(agent => !agentToDelete.ids.includes(agent.id));
+        newAgentsData = agentsData.filter(
+          (agent) => !agentToDelete.ids.includes(agent.id),
+        );
         setSelectedRows([]);
         setSelectAll(false);
       } else {
         // Delete single agent
-        newAgentsData = agentsData.filter(agent => agent.id !== agentToDelete.id);
+        newAgentsData = agentsData.filter(
+          (agent) => agent.id !== agentToDelete.id,
+        );
       }
       updateAgentsData(newAgentsData);
       setShowDeleteConfirm(false);
       setAgentToDelete(null);
-      
+
       // Adjust current page if necessary
       const newTotalPages = Math.ceil(newAgentsData.length / itemsPerPage);
       if (currentPage > newTotalPages && newTotalPages > 0) {
@@ -351,9 +371,9 @@ const Agents = () => {
   };
 
   const handleSort = (key) => {
-    let direction = 'asc';
-    if (sortConfig.key === key && sortConfig.direction === 'asc') {
-      direction = 'desc';
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
     }
     setSortConfig({ key, direction });
   };
@@ -365,7 +385,7 @@ const Agents = () => {
   };
 
   const openAddModal = () => {
-    setModalMode('add');
+    setModalMode("add");
     setFormData({
       name: "",
       email: "",
@@ -374,13 +394,13 @@ const Agents = () => {
       specialization: "Residential Sales",
       experience: "",
       password: "",
-      confirmPassword: ""
+      confirmPassword: "",
     });
     setShowModal(true);
   };
 
   const openEditModal = (agent) => {
-    setModalMode('edit');
+    setModalMode("edit");
     setCurrentAgent(agent);
     setFormData({
       name: agent.name,
@@ -390,13 +410,13 @@ const Agents = () => {
       specialization: agent.specialization,
       experience: agent.experience,
       password: "",
-      confirmPassword: ""
+      confirmPassword: "",
     });
     setShowModal(true);
   };
 
   const openViewModal = (agent) => {
-    setModalMode('view');
+    setModalMode("view");
     setCurrentAgent(agent);
     setFormData({
       name: agent.name,
@@ -406,7 +426,7 @@ const Agents = () => {
       specialization: agent.specialization,
       experience: agent.experience,
       password: "",
-      confirmPassword: ""
+      confirmPassword: "",
     });
     setShowModal(true);
   };
@@ -418,17 +438,36 @@ const Agents = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
+    // Name validation
+    if (!/^[A-Za-z ]+$/.test(formData.name)) {
+      alert("Agent name must contain only letters.");
+      return;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      alert("Enter a valid email address.");
+      return;
+    }
+
+    // Phone validation
+    if (!/^[0-9]{10}$/.test(formData.phone)) {
+      alert("Phone number must be exactly 10 digits.");
+      return;
+    }
+
     // Password validation for add/edit
-    if (modalMode !== 'view') {
+    if (modalMode !== "view") {
       if (formData.password !== formData.confirmPassword) {
         alert("Passwords do not match!");
         return;
@@ -438,58 +477,66 @@ const Agents = () => {
         return;
       }
     }
-    
+
     let newAgentsData;
-    
-    if (modalMode === 'add') {
+
+    if (modalMode === "add") {
       // Add new agent
-      const newId = agentsData.length > 0 ? Math.max(...agentsData.map((a) => a.id)) + 1 : 1;
+      const newId =
+        agentsData.length > 0
+          ? Math.max(...agentsData.map((a) => a.id)) + 1
+          : 1;
       const newAgent = {
         ...formData,
         id: newId,
         experience: parseInt(formData.experience) || 0,
         password: formData.password,
         totalLeads: 0,
-        totalDeals: 0
+        totalDeals: 0,
       };
       // Remove confirmPassword before saving
       delete newAgent.confirmPassword;
       newAgentsData = [...agentsData, newAgent];
-    } else if (modalMode === 'edit') {
+    } else if (modalMode === "edit") {
       // Edit existing agent
-      newAgentsData = agentsData.map(agent => 
-        agent.id === currentAgent.id ? { 
-          ...agent,
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          location: formData.location,
-          specialization: formData.specialization,
-          experience: parseInt(formData.experience) || agent.experience,
-          ...(formData.password ? { password: formData.password } : {})
-        } : agent
+      newAgentsData = agentsData.map((agent) =>
+        agent.id === currentAgent.id
+          ? {
+              ...agent,
+              name: formData.name,
+              email: formData.email,
+              phone: formData.phone,
+              location: formData.location,
+              specialization: formData.specialization,
+              experience: parseInt(formData.experience) || agent.experience,
+              ...(formData.password ? { password: formData.password } : {}),
+            }
+          : agent,
       );
     }
-    
+
     // Recalculate stats after adding/editing
-    const updatedAgentsWithStats = calculateAgentStats(newAgentsData, leadsData);
+    const updatedAgentsWithStats = calculateAgentStats(
+      newAgentsData,
+      leadsData,
+    );
     updateAgentsData(updatedAgentsWithStats);
     setShowModal(false);
   };
 
   // Get specialization badge color
   const getSpecializationColor = (specialization) => {
-    switch(specialization) {
-      case 'Residential Sales':
-        return '#0ACA57';
-      case 'Commercial Sales':
-        return '#2563EB';
-      case 'Rental Sales':
-        return '#EA8E00';
-      case 'Luxury Properties':
-        return '#9333EA';
+    switch (specialization) {
+      case "Residential Sales":
+        return "#0ACA57";
+      case "Commercial Sales":
+        return "#2563EB";
+      case "Rental Sales":
+        return "#EA8E00";
+      case "Luxury Properties":
+        return "#9333EA";
       default:
-        return '#6B7280';
+        return "#6B7280";
     }
   };
 
@@ -497,23 +544,31 @@ const Agents = () => {
   const getPageNumbers = () => {
     const pages = [];
     const maxVisiblePages = windowWidth < 640 ? 3 : 5;
-    
+
     if (totalPages <= maxVisiblePages) {
       for (let i = 1; i <= totalPages; i++) pages.push(i);
     } else {
       if (currentPage <= 3) {
-        pages.push(1, 2, 3, 4, 5, '...', totalPages);
+        pages.push(1, 2, 3, 4, 5, "...", totalPages);
       } else if (currentPage >= totalPages - 2) {
-        pages.push(1, '...', totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+        pages.push(
+          1,
+          "...",
+          totalPages - 4,
+          totalPages - 3,
+          totalPages - 2,
+          totalPages - 1,
+          totalPages,
+        );
       } else {
         pages.push(
           1,
-          '...',
+          "...",
           currentPage - 1,
           currentPage,
           currentPage + 1,
-          '...',
-          totalPages
+          "...",
+          totalPages,
         );
       }
     }
@@ -538,18 +593,20 @@ const Agents = () => {
       <div className="agents-content">
         {/* Header Section */}
         <div className="agents-header">
-  <div className="agents-header-left">
-    <h1 className="agents-title">Agent Management</h1>
-    <p className="agents-subtitle">Manage sales agents and their access</p>
-  </div>
-</div>
+          <div className="agents-header-left">
+            <h1 className="agents-title">Agent Management</h1>
+            <p className="agents-subtitle">
+              Manage sales agents and their access
+            </p>
+          </div>
+        </div>
 
-<div className="add-agent-row">
-  <button className="add-agent-btn" onClick={openAddModal}>
-    <span className="plus-icon">+</span>
-    Add Agent
-  </button>
-</div>
+        <div className="add-agent-row">
+          <button className="add-agent-btn" onClick={openAddModal}>
+            <span className="plus-icon">+</span>
+            Add Agent
+          </button>
+        </div>
 
         {/* Stats Cards */}
         <div className="stats-cards">
@@ -568,10 +625,13 @@ const Agents = () => {
               <span className="stat-value">{totalLeads}</span>
             </div>
 
-              <img src={getAssetPath("Agents Total Leads.svg")} alt="Total Leads" />
+            <img
+              src={getAssetPath("Agents Total Leads.svg")}
+              alt="Total Leads"
+            />
           </div>
 
-          <div className="stat-card1">  
+          <div className="stat-card1">
             <div className="stat-info">
               <span className="stat-label">Total Deals</span>
               <span className="stat-value">{totalDeals}</span>
@@ -586,8 +646,11 @@ const Agents = () => {
           {/* Search and Filter Row */}
           <div className="agents-filters">
             <div className="search-container">
-
-              <img src={getAssetPath("search.svg")} alt="Search" className="search-icon" />
+              <img
+                src={getAssetPath("search.svg")}
+                alt="Search"
+                className="search-icon"
+              />
               <input
                 type="text"
                 placeholder="Search agent by name, phone, email..."
@@ -599,19 +662,22 @@ const Agents = () => {
 
             <div className="filters-group">
               <div className="filter-dropdown">
-                <button 
+                <button
                   className="filterr-btn"
                   onClick={() => setShowFilterDropdown(!showFilterDropdown)}
                 >
                   <div className="filterr-btn-content">
-
-                    <img src={getAssetPath("filter-icon.svg")} alt="Filter" className="filter-icon" />
+                    <img
+                      src={getAssetPath("filter-icon.svg")}
+                      alt="Filter"
+                      className="filter-icon"
+                    />
                     <span>{specializationFilter}</span>
                   </div>
-                  <img 
-                    src={getAssetPath("dropdown.svg")} 
-                    alt="Dropdown" 
-                    className={`dropdown-arrow ${showFilterDropdown ? 'open' : ''}`}
+                  <img
+                    src={getAssetPath("dropdown.svg")}
+                    alt="Dropdown"
+                    className={`dropdown-arrow ${showFilterDropdown ? "open" : ""}`}
                   />
                 </button>
 
@@ -620,7 +686,7 @@ const Agents = () => {
                     {specializationOptions.map((option) => (
                       <div
                         key={option}
-                        className={`filter-option ${specializationFilter === option ? 'active' : ''}`}
+                        className={`filter-option ${specializationFilter === option ? "active" : ""}`}
                         onClick={() => handleSpecializationFilterChange(option)}
                       >
                         {option}
@@ -631,19 +697,25 @@ const Agents = () => {
               </div>
 
               <button
-                className={`delete-btn ${selectedRows.length === 0 ? 'disabled' : ''}`}
+                className={`delete-btn ${selectedRows.length === 0 ? "disabled" : ""}`}
                 onClick={handleDeleteSelected}
                 disabled={selectedRows.length === 0}
               >
-
-                <img src={getAssetPath("deletebutton.svg")} alt="Delete" className="delete-icon" />
+                <img
+                  src={getAssetPath("deletebutton.svg")}
+                  alt="Delete"
+                  className="delete-icon"
+                />
                 Delete ({selectedRows.length})
               </button>
             </div>
           </div>
 
           {showFilterDropdown && (
-            <div className="dropdown-overlay" onClick={() => setShowFilterDropdown(false)} />
+            <div
+              className="dropdown-overlay"
+              onClick={() => setShowFilterDropdown(false)}
+            />
           )}
 
           {/* Table */}
@@ -659,116 +731,116 @@ const Agents = () => {
                       onChange={handleSelectAll}
                     />
                   </th>
-                  <th className="agent-name-col" onClick={() => handleSort('name')}>
+                  <th
+                    className="agent-name-col"
+                    onClick={() => handleSort("name")}
+                  >
                     <div className="th-content">
                       <span>Agent Name</span>
                       <div className="sort-icons">
-                        <img 
-
+                        <img
                           src={getAssetPath("ChevronLeft.svg")}
-                          alt="Sort" 
-                          className={`sort-icon ${sortConfig.key === 'name' && sortConfig.direction === 'asc' ? 'active' : ''}`}
+                          alt="Sort"
+                          className={`sort-icon ${sortConfig.key === "name" && sortConfig.direction === "asc" ? "active" : ""}`}
                         />
-                        <img 
-
-                          src={getAssetPath("ChevronRight.svg")} 
-                          alt="Sort" 
-                          className={`sort-icon ${sortConfig.key === 'name' && sortConfig.direction === 'desc' ? 'active' : ''}`}
+                        <img
+                          src={getAssetPath("ChevronRight.svg")}
+                          alt="Sort"
+                          className={`sort-icon ${sortConfig.key === "name" && sortConfig.direction === "desc" ? "active" : ""}`}
                         />
                       </div>
                     </div>
                   </th>
-                  <th className="email-col" onClick={() => handleSort('email')}>
+                  <th className="email-col" onClick={() => handleSort("email")}>
                     <div className="th-content">
                       <span>Email Address</span>
                       <div className="sort-icons">
-                        <img 
-
-                          src={getAssetPath("ChevronLeft.svg")} 
-                          alt="Sort" 
-                          className={`sort-icon ${sortConfig.key === 'email' && sortConfig.direction === 'asc' ? 'active' : ''}`}
+                        <img
+                          src={getAssetPath("ChevronLeft.svg")}
+                          alt="Sort"
+                          className={`sort-icon ${sortConfig.key === "email" && sortConfig.direction === "asc" ? "active" : ""}`}
                         />
-                        <img 
-
-                          src={getAssetPath("ChevronRight.svg")} 
-                          alt="Sort" 
-                          className={`sort-icon ${sortConfig.key === 'email' && sortConfig.direction === 'desc' ? 'active' : ''}`}
+                        <img
+                          src={getAssetPath("ChevronRight.svg")}
+                          alt="Sort"
+                          className={`sort-icon ${sortConfig.key === "email" && sortConfig.direction === "desc" ? "active" : ""}`}
                         />
                       </div>
                     </div>
                   </th>
-                  <th className="phone-col" onClick={() => handleSort('phone')}>
+                  <th className="phone-col" onClick={() => handleSort("phone")}>
                     <div className="th-content">
                       <span>Phone</span>
                       <div className="sort-icons">
-                        <img 
-
-                          src={getAssetPath("ChevronLeft.svg")} 
-                          alt="Sort" 
-                          className={`sort-icon ${sortConfig.key === 'phone' && sortConfig.direction === 'asc' ? 'active' : ''}`}
+                        <img
+                          src={getAssetPath("ChevronLeft.svg")}
+                          alt="Sort"
+                          className={`sort-icon ${sortConfig.key === "phone" && sortConfig.direction === "asc" ? "active" : ""}`}
                         />
-                        <img 
-
-                          src={getAssetPath("ChevronRight.svg")} 
-                          alt="Sort" 
-                          className={`sort-icon ${sortConfig.key === 'phone' && sortConfig.direction === 'desc' ? 'active' : ''}`}
+                        <img
+                          src={getAssetPath("ChevronRight.svg")}
+                          alt="Sort"
+                          className={`sort-icon ${sortConfig.key === "phone" && sortConfig.direction === "desc" ? "active" : ""}`}
                         />
                       </div>
                     </div>
                   </th>
-                  <th className="location-col" onClick={() => handleSort('location')}>
+                  <th
+                    className="location-col"
+                    onClick={() => handleSort("location")}
+                  >
                     <div className="th-content">
                       <span>Location</span>
                       <div className="sort-icons">
-                        <img 
-
-                          src={getAssetPath("ChevronLeft.svg")} 
-                          alt="Sort" 
-                          className={`sort-icon ${sortConfig.key === 'location' && sortConfig.direction === 'asc' ? 'active' : ''}`}
+                        <img
+                          src={getAssetPath("ChevronLeft.svg")}
+                          alt="Sort"
+                          className={`sort-icon ${sortConfig.key === "location" && sortConfig.direction === "asc" ? "active" : ""}`}
                         />
-                        <img 
-
-                          src={getAssetPath("ChevronRight.svg")} 
-                          alt="Sort" 
-                          className={`sort-icon ${sortConfig.key === 'location' && sortConfig.direction === 'desc' ? 'active' : ''}`}
+                        <img
+                          src={getAssetPath("ChevronRight.svg")}
+                          alt="Sort"
+                          className={`sort-icon ${sortConfig.key === "location" && sortConfig.direction === "desc" ? "active" : ""}`}
                         />
                       </div>
                     </div>
                   </th>
-                  <th className="specialization-col" onClick={() => handleSort('specialization')}>
+                  <th
+                    className="specialization-col"
+                    onClick={() => handleSort("specialization")}
+                  >
                     <div className="th-content">
                       <span>Specialization</span>
                       <div className="sort-icons">
-                        <img 
-
-                          src={getAssetPath("ChevronLeft.svg")} 
-                          alt="Sort" 
-                          className={`sort-icon ${sortConfig.key === 'specialization' && sortConfig.direction === 'asc' ? 'active' : ''}`}
+                        <img
+                          src={getAssetPath("ChevronLeft.svg")}
+                          alt="Sort"
+                          className={`sort-icon ${sortConfig.key === "specialization" && sortConfig.direction === "asc" ? "active" : ""}`}
                         />
-                        <img 
-
-                          src={getAssetPath("ChevronRight.svg")} 
-                          alt="Sort" 
-                          className={`sort-icon ${sortConfig.key === 'specialization' && sortConfig.direction === 'desc' ? 'active' : ''}`}
+                        <img
+                          src={getAssetPath("ChevronRight.svg")}
+                          alt="Sort"
+                          className={`sort-icon ${sortConfig.key === "specialization" && sortConfig.direction === "desc" ? "active" : ""}`}
                         />
                       </div>
                     </div>
                   </th>
-                  <th className="experience-col" onClick={() => handleSort('experience')}>
+                  <th
+                    className="experience-col"
+                    onClick={() => handleSort("experience")}
+                  >
                     <div className="th-content">
                       <span>Experience</span>
                       <div className="sort-icons">
-                        <img 
-
-                          src={getAssetPath("ChevronLeft.svg")} 
-                          alt="Sort" 
-                          className={`sort-icon ${sortConfig.key === 'experience' && sortConfig.direction === 'asc' ? 'active' : ''}`}
+                        <img
+                          src={getAssetPath("ChevronLeft.svg")}
+                          alt="Sort"
+                          className={`sort-icon ${sortConfig.key === "experience" && sortConfig.direction === "asc" ? "active" : ""}`}
                         />
-                        <img 
-
-                          src={getAssetPath("ChevronRight.svg")} 
-                          alt="Sort" 
-                          className={`sort-icon ${sortConfig.key === 'experience' && sortConfig.direction === 'desc' ? 'active' : ''}`}
+                        <img
+                          src={getAssetPath("ChevronRight.svg")}
+                          alt="Sort"
+                          className={`sort-icon ${sortConfig.key === "experience" && sortConfig.direction === "desc" ? "active" : ""}`}
                         />
                       </div>
                     </div>
@@ -781,7 +853,9 @@ const Agents = () => {
               <tbody>
                 {currentAgents.length > 0 ? (
                   currentAgents.map((agent) => {
-                    const specializationColor = getSpecializationColor(agent.specialization);
+                    const specializationColor = getSpecializationColor(
+                      agent.specialization,
+                    );
                     return (
                       <tr key={agent.id}>
                         <td className="checkbox-cell">
@@ -800,22 +874,45 @@ const Agents = () => {
                         </td>
                         <td className="phone-col">{agent.phone}</td>
                         <td className="location-col">{agent.location}</td>
-                        <td className="specialization-col" style={{ color: specializationColor }}>
+                        <td
+                          className="specialization-col"
+                          style={{ color: specializationColor }}
+                        >
                           {agent.specialization}
                         </td>
                         <td className="experience-col">
-                          <span className="experience-value">{agent.experience} years</span>
+                          <span className="experience-value">
+                            {agent.experience} years
+                          </span>
                         </td>
                         <td className="actions-col">
                           <div className="action-buttons">
-                            <button className="action-btn" title="Edit" onClick={() => openEditModal(agent)}>
+                            <button
+                              className="action-btn"
+                              title="Edit"
+                              onClick={() => openEditModal(agent)}
+                            >
                               <img src={getAssetPath("edit.svg")} alt="Edit" />
                             </button>
-                            <button className="action-btn" title="View" onClick={() => openViewModal(agent)}>
-                              <img src={getAssetPath("eye-icon.svg")} alt="View" />
-                            </button>    
-                            <button className="action-btn delete" title="Delete" onClick={() => handleDeleteClick(agent)}>
-                              <img src={getAssetPath("delete.svg")} alt="Delete" />
+                            <button
+                              className="action-btn"
+                              title="View"
+                              onClick={() => openViewModal(agent)}
+                            >
+                              <img
+                                src={getAssetPath("eye-icon.svg")}
+                                alt="View"
+                              />
+                            </button>
+                            <button
+                              className="action-btn delete"
+                              title="Delete"
+                              onClick={() => handleDeleteClick(agent)}
+                            >
+                              <img
+                                src={getAssetPath("delete.svg")}
+                                alt="Delete"
+                              />
                             </button>
                           </div>
                         </td>
@@ -837,7 +934,8 @@ const Agents = () => {
           {totalAgents > 0 && (
             <div className="pagination">
               <div className="pagination-info">
-                Showing {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, totalAgents)} Out of {totalAgents}
+                Showing {indexOfFirstItem + 1}-
+                {Math.min(indexOfLastItem, totalAgents)} Out of {totalAgents}
               </div>
               <div className="pagination-controls">
                 <button
@@ -845,24 +943,25 @@ const Agents = () => {
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
                 >
-
                   <img src={getAssetPath("PreviousIcon.svg")} alt="Previous" />
                   <span>Previous</span>
                 </button>
 
-                {getPageNumbers().map((page, index) => (
-                  page === '...' ? (
-                    <span key={index} className="pagination-ellipsis">...</span>
+                {getPageNumbers().map((page, index) =>
+                  page === "..." ? (
+                    <span key={index} className="pagination-ellipsis">
+                      ...
+                    </span>
                   ) : (
                     <button
                       key={index}
-                      className={`pagination-number ${currentPage === page ? 'active' : ''}`}
+                      className={`pagination-number ${currentPage === page ? "active" : ""}`}
                       onClick={() => handlePageChange(page)}
                     >
                       {page}
                     </button>
-                  )
-                ))}
+                  ),
+                )}
 
                 <button
                   className="pagination-nav"
@@ -884,161 +983,364 @@ const Agents = () => {
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>{modalMode === 'add' ? 'Add New Agent' : modalMode === 'edit' ? 'Edit Agent' : 'View Agent'}</h2>
-              <button className="modal-close" onClick={() => setShowModal(false)}>X</button>
+              <h2>
+                {modalMode === "add"
+                  ? "Add New Agent"
+                  : modalMode === "edit"
+                    ? "Edit Details"
+                    : "View Agent"}
+              </h2>
+              <button
+                className="modal-close"
+                onClick={() => setShowModal(false)}
+              >
+                <img
+                  src={getAssetPath("Cross Icon.svg")}
+                  alt="close"
+                  className="close-icon"
+                />
+              </button>
             </div>
-            
+
             <form onSubmit={handleSubmit}>
               <div className="modal-body">
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>Agent Name *</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      placeholder="Enter Agent Name"
-                      required={modalMode !== 'view'}
-                      disabled={modalMode === 'view'}
-                    />
-                  </div>
-                  
-                  <div className="form-group">
-                    <label>Email Address *</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      placeholder="Enter Email Address"
-                      required={modalMode !== 'view'}
-                      disabled={modalMode === 'view'}
-                    />
-                  </div>
-                </div>
+                {/* EDIT AGENT UI */}
+                {modalMode === "edit" ? (
+                  <>
+                    {/* Contact Details */}
+                    <div className="edit-section">
+                      <h4>Contact Details</h4>
 
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>Phone *</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      placeholder="Enter Phone Number"
-                      required={modalMode !== 'view'}
-                      disabled={modalMode === 'view'}
-                    />
-                  </div>
-                  
-                  <div className="form-group">
-                    <label>Location</label>
-                    <input
-                      type="text"
-                      name="location"
-                      value={formData.location}
-                      onChange={handleInputChange}
-                      placeholder="eg Kothrud, Pune"
-                      disabled={modalMode === 'view'}
-                    />
-                  </div>
-                </div>
+                      <div className="form-row three">
+                        <div className="form-group">
+                          <label>Name</label>
+                          <input
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleInputChange}
+                            placeholder="Enter Agent Name"
+                            required
+                            pattern="^[A-Za-z ]+$"
+                            title="Name should contain only letters"
+                            disabled={modalMode === "view"}
+                          />
+                        </div>
 
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>Specialization</label>
-                    <select
-                      name="specialization"
-                      value={formData.specialization}
-                      onChange={handleInputChange}
-                      disabled={modalMode === 'view'}
-                    >
-                      {specializationOptions.filter(s => s !== 'All Specializations').map(option => (
-                        <option key={option} value={option}>{option}</option>
-                      ))}
-                    </select>
-                  </div>
-                  
-                  <div className="form-group">
-                    <label>Experience (Years)</label>
-                    <input
-                      type="number"
-                      name="experience"
-                      value={formData.experience}
-                      onChange={handleInputChange}
-                      placeholder="eg 5"
-                      min="0"
-                      max="50"
-                      disabled={modalMode === 'view'}
-                    />
-                  </div>
-                </div>
+                        <div className="form-group">
+                          <label>Phone</label>
+                          <input
+                            type="tel"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={(e) => {
+                              const value = e.target.value.replace(/\D/g, "");
+                              if (value.length <= 10) {
+                                setFormData({ ...formData, phone: value });
+                              }
+                            }}
+                            placeholder="Enter Phone Number"
+                            pattern="[0-9]{10}"
+                            title="Phone number must be 10 digits"
+                          />
+                        </div>
 
-                {modalMode !== 'view' && (
+                        <div className="form-group">
+                          <label>Email</label>
+                          <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
+                            required
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                            title="Enter a valid email address"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* User ID & Password */}
+                    <div className="edit-section">
+                      <h3>User ID & Password</h3>
+
+                      <div className="form-row two">
+                        <div className="form-group">
+                          <label>User Name</label>
+                          <input type="text" value={formData.email} disabled />
+                        </div>
+
+                        <div className="form-group">
+                          <label>Password</label>
+                          <input
+                            type="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleInputChange}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Professional Details */}
+                    <div className="edit-section">
+                      <h3>Professional Details</h3>
+
+                      <div className="form-row two">
+                        <div className="form-group">
+                          <label>Experience</label>
+                          <input
+                            type="number"
+                            name="experience"
+                            value={formData.experience}
+                            onChange={handleInputChange}
+                          />
+                        </div>
+
+                        <div className="form-group">
+                          <label>Specialization</label>
+                          <select
+                            name="specialization"
+                            value={formData.specialization}
+                            onChange={handleInputChange}
+                          >
+                            {specializationOptions
+                              .filter((s) => s !== "All Specializations")
+                              .map((option) => (
+                                <option key={option} value={option}>
+                                  {option}
+                                </option>
+                              ))}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Address Information */}
+                    <div className="edit-section">
+                      <h3>Address Information</h3>
+
+                      <div className="form-row three">
+                        <div className="form-group">
+                          <label>Address</label>
+                          <input
+                            type="text"
+                            name="location"
+                            value={formData.location}
+                            onChange={handleInputChange}
+                          />
+                        </div>
+
+                        <div className="form-group">
+                          <label>City</label>
+                          <input type="text" placeholder="City" />
+                        </div>
+
+                        <div className="form-group">
+                          <label>State</label>
+                          <input type="text" placeholder="State" />
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ) : (
                   <>
                     <div className="form-row">
-                      <div className="form-group">
-                        <label>Password {modalMode === 'add' ? '*' : ''}</label>
+                      <div
+                        className="form-gro
+                  up"
+                      >
+                        <label>Agent Name *</label>
                         <input
-                          type="password"
-                          name="password"
-                          value={formData.password}
+                          type="text"
+                          name="name"
+                          value={formData.name}
                           onChange={handleInputChange}
-                          placeholder={modalMode === 'add' ? "Enter Password" : "Leave blank to keep current"}
-                          required={modalMode === 'add'}
-                          minLength="6"
+                          placeholder="Enter Agent Name"
+                          required
+                          pattern="^[A-Za-z ]+$"
+                          title="Name should contain only letters"
+                          disabled={modalMode === "view"}
                         />
                       </div>
-                      
-                      <div className="form-group">
-                        <label>Confirm Password {modalMode === 'add' ? '*' : ''}</label>
-                        <input
-                          type="password"
-                          name="confirmPassword"
-                          value={formData.confirmPassword}
-                          onChange={handleInputChange}
-                          placeholder="Confirm Password"
-                          required={modalMode === 'add'}
-                        />
-                      </div>
-                    </div>
-                    <p className="password-hint">Password must be at least 6 characters long</p>
-                  </>
-                )}
 
-                {modalMode === 'view' && (
-                  <div className="agent-stats-view">
-                    <div className="stat-row">
-                      <span className="stat-label">Total Leads:</span>
-                      <span className="stat-value">{currentAgent?.totalLeads || 0}</span>
+                      <div className="form-group">
+                        <label>Email Address *</label>
+                        <input
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          placeholder="Enter Email Address"
+                          required
+                          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                          title="Enter a valid email address"
+                          disabled={modalMode === "view"}
+                        />
+                      </div>
                     </div>
-                    <div className="stat-row">
-                      <span className="stat-label">Total Deals:</span>
-                      <span className="stat-value">{currentAgent?.totalDeals || 0}</span>
+
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label>Phone *</label>
+                        <input
+                          type="tel"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={(e) => {
+                            const value = e.target.value.replace(/\D/g, "");
+                            if (value.length <= 10) {
+                              setFormData({ ...formData, phone: value });
+                            }
+                          }}
+                          placeholder="Enter Phone Number"
+                          pattern="[0-9]{10}"
+                          title="Phone number must be 10 digits"
+                          required
+                          disabled={modalMode === "view"}
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label>Location</label>
+                        <input
+                          type="text"
+                          name="location"
+                          value={formData.location}
+                          onChange={handleInputChange}
+                          placeholder="eg Kothrud, Pune"
+                          disabled={modalMode === "view"}
+                        />
+                      </div>
                     </div>
-                    <div className="stat-row">
-                      <span className="stat-label">Conversion Rate:</span>
-                      <span className="stat-value">
-                        {currentAgent?.totalLeads ? 
-                          Math.round((currentAgent.totalDeals / currentAgent.totalLeads) * 100) : 0}%
-                      </span>
+
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label>Specialization</label>
+                        <select
+                          name="specialization"
+                          value={formData.specialization}
+                          onChange={handleInputChange}
+                          disabled={modalMode === "view"}
+                        >
+                          {specializationOptions
+                            .filter((s) => s !== "All Specializations")
+                            .map((option) => (
+                              <option key={option} value={option}>
+                                {option}
+                              </option>
+                            ))}
+                        </select>
+                      </div>
+
+                      <div className="form-group">
+                        <label>Experience (Years)</label>
+                        <input
+                          type="number"
+                          name="experience"
+                          value={formData.experience}
+                          onChange={handleInputChange}
+                          placeholder="eg 5"
+                          min="0"
+                          max="50"
+                          required
+                          disabled={modalMode === "view"}
+                        />
+                      </div>
                     </div>
-                    <div className="stat-row">
-                      <span className="stat-label">Experience:</span>
-                      <span className="stat-value">{currentAgent?.experience || 0} years</span>
-                    </div>
-                  </div>
+
+                    {modalMode !== "view" && (
+                      <>
+                        <div className="form-row">
+                          <div className="form-group">
+                            <label>
+                              Password {modalMode === "add" ? "*" : ""}
+                            </label>
+                            <input
+                              type="password"
+                              name="password"
+                              value={formData.password}
+                              onChange={handleInputChange}
+                              placeholder={
+                                modalMode === "add"
+                                  ? "Enter Password"
+                                  : "Leave blank to keep current"
+                              }
+                              required={modalMode === "add"}
+                              minLength="6"
+                            />
+                          </div>
+
+                          <div className="form-group">
+                            <label>
+                              Confirm Password {modalMode === "add" ? "*" : ""}
+                            </label>
+                            <input
+                              type="password"
+                              name="confirmPassword"
+                              value={formData.confirmPassword}
+                              onChange={handleInputChange}
+                              placeholder="Confirm Password"
+                              required={modalMode === "add"}
+                            />
+                          </div>
+                        </div>
+                        <p className="password-hint">
+                          Password must be at least 6 characters long
+                        </p>
+                      </>
+                    )}
+
+                    {modalMode === "view" && (
+                      <div className="agent-stats-view">
+                        <div className="stat-row">
+                          <span className="stat-label">Total Leads:</span>
+                          <span className="stat-value">
+                            {currentAgent?.totalLeads || 0}
+                          </span>
+                        </div>
+                        <div className="stat-row">
+                          <span className="stat-label">Total Deals:</span>
+                          <span className="stat-value">
+                            {currentAgent?.totalDeals || 0}
+                          </span>
+                        </div>
+                        <div className="stat-row">
+                          <span className="stat-label">Conversion Rate:</span>
+                          <span className="stat-value">
+                            {currentAgent?.totalLeads
+                              ? Math.round(
+                                  (currentAgent.totalDeals /
+                                    currentAgent.totalLeads) *
+                                    100,
+                                )
+                              : 0}
+                            %
+                          </span>
+                        </div>
+                        <div className="stat-row">
+                          <span className="stat-label">Experience:</span>
+                          <span className="stat-value">
+                            {currentAgent?.experience || 0} years
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
 
               <div className="modal-footer">
-                <button type="button" className="cancel-btn" onClick={() => setShowModal(false)}>
+                <button
+                  type="button"
+                  className="cancel-btn"
+                  onClick={() => setShowModal(false)}
+                >
                   Cancel
                 </button>
-                {modalMode !== 'view' && (
+                {modalMode !== "view" && (
                   <button type="submit" className="submit-btn">
-                    {modalMode === 'add' ? 'Add Agent' : 'Edit Agent'}
+                    {modalMode === "add" ? "Add Agent" : "Edit Agent"}
                   </button>
                 )}
               </div>
@@ -1049,12 +1351,24 @@ const Agents = () => {
 
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
-        <div className="modal-overlay" onClick={() => setShowDeleteConfirm(false)}>
-          <div className="delete-confirm-modal" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="modal-overlay"
+          onClick={() => setShowDeleteConfirm(false)}
+        >
+          <div
+            className="delete-confirm-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
             <h3>Confirm Delete</h3>
-            <p>Are you sure you want to delete {agentToDelete?.multiple ? 'these agents' : 'this agent'}?</p>
+            <p>
+              Are you sure you want to delete{" "}
+              {agentToDelete?.multiple ? "these agents" : "this agent"}?
+            </p>
             <div className="modal-footer">
-              <button className="cancel-btn" onClick={() => setShowDeleteConfirm(false)}>
+              <button
+                className="cancel-btn"
+                onClick={() => setShowDeleteConfirm(false)}
+              >
                 Cancel
               </button>
               <button className="delete-confirm-btn" onClick={confirmDelete}>
@@ -1066,7 +1380,6 @@ const Agents = () => {
       )}
     </div>
   );
-};      
-
+};
 
 export default Agents;

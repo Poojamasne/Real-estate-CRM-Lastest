@@ -1,7 +1,6 @@
 .admin-agents-page.agents-container{
-  width: 100%;
-  min-height: 100vh;
-  background: #EFF6FF;
+ font-size: 17px;
+ font-weight: 400;
   font-family: "Roboto", sans-serif;
 }
 
@@ -524,7 +523,7 @@
 }
 
 .admin-agents-page .agent-email{
-  color: #6b7280;
+  color: #14181F;
   font-size: 13px;
 }
 
@@ -817,10 +816,25 @@
 
 .admin-agents-page .modal-footer{
   display: flex;
-  justify-content: flex-end;
   gap: 15px;
   padding-top: 20px;
   border-top: 1px solid #eee;
+}
+
+/* Edit Agent Section Titles */
+
+.admin-agents-page .edit-section h3,
+.admin-agents-page .edit-section h4{
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 100%;
+  letter-spacing: 0px;
+  vertical-align: middle;
+
+  color: #14181F;
+
+  margin-bottom: 18px;
 }
 
 .admin-agents-page .cancel-btn{
@@ -1034,3 +1048,17 @@
     width: 100%;
   }
 }
+
+
+@media (max-width: 768px){
+
+.admin-agents-page .search-container{
+  width: 100%;
+}
+
+.admin-agents-page .search-container input{
+  width: 100%;
+}
+
+}
+

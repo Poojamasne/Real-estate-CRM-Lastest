@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { getAssetPath } from "../../../utils/assetPath";
 import "./AgentSiteVisits.css";
 
 const AgentSiteVisits = () => {
@@ -33,8 +32,7 @@ const AgentSiteVisits = () => {
   // Load data from localStorage on component mount
   useEffect(() => {
     loadData();
-    
-    // Add event listener for localStorage changes
+  
     const handleStorageChange = () => {
       loadData();
     };
@@ -551,7 +549,7 @@ const AgentSiteVisits = () => {
           <div className="site-modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h2>Edit Visit</h2>
-              <button className="modal-close" onClick={() => setShowModal(false)}>Ã—</button>
+              <button className="modal-close" onClick={() => setShowModal(false)}>X</button>
             </div>
             
             <form onSubmit={handleSubmit}>
