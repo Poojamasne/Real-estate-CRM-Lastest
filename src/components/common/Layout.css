@@ -3,10 +3,9 @@
 .layout {
   display: flex;
   min-height: 100vh;
-  position: relative;
   background: #EFF6FF;
   font-family: "Roboto", sans-serif;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 /* Main Wrapper */
@@ -17,6 +16,7 @@
   width: 100%;
   transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   height: 100vh;
+  min-height: 0;   /* Important for Edge */
   background: #EFF6FF;
   overflow: hidden;
 }

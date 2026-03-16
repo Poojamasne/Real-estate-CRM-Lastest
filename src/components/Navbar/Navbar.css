@@ -444,7 +444,7 @@
   .admin-navbar .mobile-menu-toggle{
     width: 24px;
     height: 18px;
-    margin-left: 8px;
+    margin-left: 15px;
   }
 
   .admin-navbar .mobile-menu-toggle span{
@@ -465,6 +465,7 @@
     width: 28px;
     height: 28px;
     font-size: 12px;
+    margin-right: 6px;
   }
 }
 

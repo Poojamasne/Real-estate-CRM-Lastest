@@ -752,14 +752,17 @@
 }
 
 .admin-leads-page .modal-content{
-  width: 781px;
-  height: 630px;
+  width: min(781px, 95%);
+  max-height: 90vh;   /* allow modal to fit screen */
+  overflow-y: auto;   /* enable scroll inside modal */
   background: white;
   border-radius: 20px;
-  border-width: 1px;
   padding: 35px 40px;
-  position: relative;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  /* position: relative; */
+}
+
+.admin-leads-page .modal-content::-webkit-scrollbar{
+  display: none;
 }
 
 .admin-leads-page .delete-confirm-modal{
@@ -899,9 +902,9 @@
 .admin-leads-page .cancel-btn{
   padding: 10px 24px;
   border-radius: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid blue;
   background: white;
-  color: #666;
+  color: blue;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;

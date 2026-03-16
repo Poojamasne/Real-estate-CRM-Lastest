@@ -101,7 +101,7 @@ const Dashboard = () => {
         iconBg: "blue"
       },
       {
-        title: "Conformed Leads",
+        title: "Confirmed Leads",
         value: "0",
         trend: "0%",
         icon: conformedLeadsIcon,
@@ -196,7 +196,7 @@ const Dashboard = () => {
         iconBg: "blue"
       },
       {
-        title: "Conformed Leads",
+        title: "Confirmed Leads",
         value: conformedLeadsCount.toLocaleString(),
         trend: conformedTrend,
         icon: conformedLeadsIcon,
@@ -567,12 +567,10 @@ const Dashboard = () => {
             <div className="agent-labels-container">
               {agentData.map((agent, index) => {
                 // Truncate long names for display
-                const displayName = agent.name.length > 12 
-                  ? agent.name.substring(0, 10) + '...' 
-                  : agent.name;
+                const displayName = agent.name
                 return (
-                  <span key={index} className="agent-label" title={agent.name}>
-                    {displayName}
+                  <span key={index} className="agent-label" >
+                    {agent.name}
                   </span>
                 );
               })}

@@ -768,7 +768,7 @@ const Leads = () => {
                         <td className="requirement-col">
                           <span className="requirement-box">{lead.requirement}</span>
                         </td>
-                        <td className="budget-col budget-cell">{lead.budget}</td>
+                        <td className="budget-col budget-cell"><span> <img src="/assets/Vector.svg" alt="Vector" /></span> {lead.budget}</td>
                         <td className="location-col">{lead.location}</td>
                         <td className="agent-col">{lead.agent}</td>
                         <td className="followup-col">{lead.followUp}</td>
@@ -925,7 +925,7 @@ const Leads = () => {
                 name="budget"
                 value={formData.budget}
                 onChange={handleInputChange}
-                placeholder="₹ 35k / mo"
+                placeholder=" 35k / mo"
               />
             </div>
           )}

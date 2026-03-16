@@ -331,13 +331,12 @@
   position: relative;
   height: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: flex-end;
-  gap: 8px;
-  padding: 0 5px 0 0;
-  z-index: 2;
+  gap: 12px;
+  padding: 0 5px;
+  min-width: max-content; /* important */
 }
-
 .agent-bar-group {
   display: flex;
   flex-direction: column;
@@ -408,10 +407,7 @@
   color: #344054;
   text-align: center;
   font-weight: 500;
-  width: 68px;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 /* Legend */
@@ -627,23 +623,39 @@
     flex-wrap: wrap;
     gap: 12px;
   }
-  
+
   .bar {
     width: 15px;
   }
-  
-  .agent-label {
-    width: 40px;
-    font-size: 7px;
-    bottom: -22px;
+
+  .bars-container {
+    overflow-x: auto;
+    justify-content: flex-start;
   }
-  
+
+  .agent-bar-group {
+    width: 50px;
+    flex-shrink: 0;
+  }
+
+  .agent-label {
+    width: 50px;
+    font-size: 8px;
+    white-space: nowrap;
+  }
+
+  .agent-labels-container {
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
+
   .legend {
     flex-direction: column;
     gap: 8px;
   }
-  
+
   .bars-wrapper {
     gap: 3px;
   }
 }
+

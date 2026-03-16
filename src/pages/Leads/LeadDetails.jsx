@@ -140,6 +140,10 @@ const LeadDetails = () => {
               <span className="detail-label">Preferred Location</span>
               <div className="detail-value-box">{lead.location}</div>
             </div>
+              <div className="detail-item">
+              <span className="detail-label">Property Type</span>
+              <div className="detail-value-box">{lead.propertyType}</div>
+            </div>
             <div className="detail-item">
               <span className="detail-label">Assigned Agent Name</span>
               <div className="detail-value-box">{lead.agent}</div>
@@ -205,6 +209,19 @@ const LeadDetails = () => {
               placeholder="Add internal notes here..."
             />
             <div className="lead-quality-container">
+                            <span className="lead-quality-label"></span>
+              <select
+                className="lead-quality-select"
+                value={leadQuality}
+                onChange={(e) => setLeadQuality(e.target.value)}
+              >
+                <option value="Lead Quality">Lead Status</option>
+                <option value="Hot">Closed</option>
+                <option value="Warm">New</option>
+                <option value="Cold">Cancelled</option>
+                 <option value="Cold">Verified</option>
+              </select>
+
               <span className="lead-quality-label"></span>
               <select
                 className="lead-quality-select"
@@ -212,17 +229,6 @@ const LeadDetails = () => {
                 onChange={(e) => setLeadQuality(e.target.value)}
               >
                 <option value="Lead Quality">Lead Quality</option>
-                <option value="Hot">Hot</option>
-                <option value="Warm">Warm</option>
-                <option value="Cold">Cold</option>
-              </select>
-              <span className="lead-quality-label"></span>
-              <select
-                className="lead-quality-select"
-                value={leadQuality}
-                onChange={(e) => setLeadQuality(e.target.value)}
-              >
-                <option value="Lead Quality">Lead Status</option>
                 <option value="Hot">High</option>
                 <option value="Warm">Medium</option>
                 <option value="Cold">Low</option>
