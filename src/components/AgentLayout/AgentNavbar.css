@@ -358,11 +358,26 @@
 
 /* MOBILE STYLES */
 @media (max-width: 768px) {
+
+  .agent-dashboard-header {
+    display: flex;
+    flex-direction: column;   /* 🔥 stack vertically */
+    align-items: flex-start !important;  /* align left */
+    gap: 12px;     
+    text-align: left;           /* space between title & dropdown */
+  }
+
+  
+
+  
+
+  
+
   
   .agent-navbar .notifications-dropdown {
     right: 10px;        /* little padding from edge */
     left: auto;
-    width: 90vw;        /* full responsive */
+    width: 80vw;        /* full responsive */
     max-width: none;
     top: calc(100% + 10px);
   }
