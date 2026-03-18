@@ -689,8 +689,8 @@
     align-items: stretch;
   }
 
-  .admin-leads-page .search-container{
-    width: 100%;
+  .admin-leads-page .search-input{
+    width: 2px;
   }
 
   .admin-leads-page .filters-group{

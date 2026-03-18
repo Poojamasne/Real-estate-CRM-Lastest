@@ -324,18 +324,19 @@ const Reports = () => {
     };
   };
 
-  const describeArc = (x, y, radius, startAngle, endAngle) => {
-    const start = polarToCartesian(x, y, radius, endAngle);
-    const end = polarToCartesian(x, y, radius, startAngle);
-    const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+const describeArc = (x, y, radius, startAngle, endAngle) => {
+  const start = polarToCartesian(x, y, radius, startAngle);
+  const end = polarToCartesian(x, y, radius, endAngle);
 
-    return [
-      "M", start.x, start.y,
-      "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y,
-      "L", x, y,
-      "Z",
-    ].join(" ");
-  };
+  const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+
+  return [
+    "M", x, y,                 // 👉 start from center
+    "L", start.x, start.y,     // 👉 go to arc start
+    "A", radius, radius, 0, largeArcFlag, 1, end.x, end.y, // 👉 arc
+    "Z"
+  ].join(" ");
+};
 
   const buyAngle = buyPercentage > 0 ? (buyPercentage / 100) * 360 : 0;
 
