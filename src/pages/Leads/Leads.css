@@ -828,6 +828,15 @@
   margin-bottom: 20px;
 }
 
+.error-text {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.input-error {
+  border: 1px solid red !important;
+}
 .admin-leads-page .form-group{
   flex: 1;
 }

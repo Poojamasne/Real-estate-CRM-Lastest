@@ -19,6 +19,7 @@ const Leads = () => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [leadToDelete, setLeadToDelete] = useState(null);
   const [loading, setLoading] = useState(true);
+  const[errors , setErrors] = useState({})
 
   // Contact verification state
   const [Verification, setVerification] = useState({
@@ -44,7 +45,42 @@ const Leads = () => {
   });
 
   const [leadsData, setLeadsData] = useState([]);
+   const validate = () => {
+  const newErrors = {};
 
+  if (!formData.name.trim()) {
+    newErrors.name = "Lead name is required";
+  }
+
+  if (!formData.phone) {
+    newErrors.phone = "Phone is required";
+  } else if (!/^[0-9]{10}$/.test(formData.phone)) {
+    newErrors.phone = "Enter valid 10-digit phone";
+  }
+
+  if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+    newErrors.email = "Invalid email";
+  }
+
+  if (!formData.location) {
+    newErrors.location = "Location is required";
+  }
+
+  if (!formData.agent) {
+    newErrors.agent = "Agent name is required";
+  }
+
+  if (!formData.budget) {
+    newErrors.budget = "Budget is required";
+  }
+
+  if (!formData.followUp) {
+    newErrors.followUp = "Follow-up date required";
+  }
+
+  setErrors(newErrors);
+  return Object.keys(newErrors).length === 0;
+};
   // Load data from localStorage on component mount
   useEffect(() => {
     loadLeadsData();
@@ -381,13 +417,24 @@ const Leads = () => {
     setShowDeleteConfirm(true);
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+const handleInputChange = (e) => {
+  let { name, value } = e.target;
+
+  // ✅ Restrict location to only letters + spaces
+  if (name === "location") {
+    value = value.replace(/[^A-Za-z ]/g, ""); // remove numbers & symbols
+  }
+
+  setFormData((prev) => ({
+    ...prev,
+    [name]: value,
+  }));
+
+  setErrors((prev) => ({
+    ...prev,
+    [name]: "",
+  }));
+};
 
   const handleVerificationChange = (field) => {
     setVerification(prev => ({
@@ -396,38 +443,40 @@ const Leads = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+const handleSubmit = (e) => {
+  e.preventDefault();
 
-    let newLeadsData;
+  if (!validate()) return;
 
-    if (modalMode === 'add') {
-      // Generate new ID
-      const newId = leadsData.length > 0 ? Math.max(...leadsData.map(l => l.id)) + 1 : 1;
-      const newLead = {
-        ...formData,
-        id: newId,
-        verification: Verification,
-        internalNotes: formData.internalNotes || '',
-        leadQuality: formData.leadQuality || 'Lead Quality'
-      };
-      newLeadsData = [...leadsData, newLead];
-    } else if (modalMode === 'edit') {
-      // Edit existing lead
-      newLeadsData = leadsData.map(lead =>
-        lead.id === currentLead.id ? {
-          ...formData,
-          id: currentLead.id,
-          verification: Verification,
-          internalNotes: formData.internalNotes || lead.internalNotes || '',
-          leadQuality: formData.leadQuality || lead.leadQuality || 'Lead Quality'
-        } : lead
-      );
-    }
+  let newLeadsData;
 
-    updateLeadsData(newLeadsData);
-    setShowModal(false);
-  };
+  if (modalMode === 'add') {
+    const newId = leadsData.length > 0 ? Math.max(...leadsData.map(l => l.id)) + 1 : 1;
+
+    const newLead = {
+      ...formData,
+      id: newId,
+      verification: Verification,
+      internalNotes: formData.internalNotes || '',
+      leadQuality: formData.leadQuality || 'Lead Quality'
+    };
+
+    newLeadsData = [...leadsData, newLead];
+  } else {
+    newLeadsData = leadsData.map(lead =>
+      lead.id === currentLead.id
+        ? {
+            ...formData,
+            id: currentLead.id,
+            verification: Verification
+          }
+        : lead
+    );
+  }
+
+  updateLeadsData(newLeadsData);
+  setShowModal(false);
+};
 
 
   const getStatusColor = (status) => {
@@ -885,8 +934,9 @@ const Leads = () => {
                   value={formData.name}
                   onChange={handleInputChange}
                   placeholder="Enter Lead Name"
-                  required
+  className={errors.name ? "input-error" : ""}
                 />
+                {errors.name && <span className="error-text">{errors.name}</span>}
               </div>
 
               <div className="form-group">
@@ -897,8 +947,9 @@ const Leads = () => {
                   value={formData.phone}
                   onChange={handleInputChange}
                   placeholder="Enter Phone Number"
-                  required
+  className={errors.phone ? "input-error" : ""}
                 />
+                {errors.phone && <span className="error-text">{errors.phone}</span>}
               </div>
             </div>
 
@@ -912,7 +963,9 @@ const Leads = () => {
                   value={formData.location}
                   onChange={handleInputChange}
                   placeholder="eg Nanded City"
+  className={errors.location ? "input-error" : ""}
                 />
+                {errors.location && <span className="error-text">{errors.location}</span>}
               </div>
 
               <div className="form-group">
@@ -923,7 +976,9 @@ const Leads = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="Enter Email ID"
+                    className={errors.email ? "input-error" : ""}
                 />
+                {errors.email && <span className="error-text">{errors.email}</span>}
               </div>
             </div>
 
@@ -937,7 +992,9 @@ const Leads = () => {
                   value={formData.agent}
                   onChange={handleInputChange}
                   placeholder="Enter Agent Name"
+                    className={errors.agent ? "input-error" : ""}
                 />
+                {errors.agent && <span className="error-text">{errors.agent}</span>}
               </div>
 
               <div className="form-group">
@@ -948,7 +1005,9 @@ const Leads = () => {
                   value={formData.budget}
                   onChange={handleInputChange}
                   placeholder="eg 75L or 35k"
+                    className={errors.budget ? "input-error" : ""}
                 />
+                {errors.budget && <span className="error-text">{errors.budget}</span>}
               </div>
             </div>
 
@@ -975,7 +1034,9 @@ const Leads = () => {
                   value={formData.followUp}
                   onChange={handleInputChange}
                   placeholder="DD/MM/YYYY"
+                    className={errors.followUp ? "input-error" : ""}
                 />
+                {errors.followUp && <span className="error-text">{errors.followUp}</span>}
               </div>
             </div>
 
@@ -1013,8 +1074,9 @@ const Leads = () => {
                   value={formData.name}
                   onChange={handleInputChange}
                   placeholder="Enter Lead Name"
-                  required
+                  className={errors.name ? "input-error" : ""}
                 />
+                {errors.name && <span className="error-text">{errors.name}</span>}
               </div>
 
               <div className="form-group">
@@ -1025,8 +1087,9 @@ const Leads = () => {
                   value={formData.phone}
                   onChange={handleInputChange}
                   placeholder="Enter Phone Number"
-                  required
+                  className={errors.phone ? "input-error" : ""}
                 />
+                {errors.phone && <span className="error-text">{errors.phone}</span>}
               </div>
             </div>
 
@@ -1040,7 +1103,9 @@ const Leads = () => {
                   value={formData.location}
                   onChange={handleInputChange}
                   placeholder="eg Nanded City"
+                  className={errors.location ? "input-error" : ""}
                 />
+                {errors.location && <span className="error-text">{errors.location}</span>}
               </div>
 
               <div className="form-group">
@@ -1051,7 +1116,9 @@ const Leads = () => {
                   value={formData.budget}
                   onChange={handleInputChange}
                   placeholder="eg 75L or 35k"
+                  className={errors.budget ? "input-error" : ""}
                 />
+                {errors.budget && <span className="error-text">{errors.budget}</span>}
               </div>
             </div>
 
@@ -1065,7 +1132,9 @@ const Leads = () => {
                   value={formData.agent}
                   onChange={handleInputChange}
                   placeholder="Enter Agent Name"
+                  className={errors.agent ? "input-error" : ""}
                 />
+                {errors.agent && <span className="error-text">{errors.agent}</span>}
               </div>
 
               <div className="form-group">
@@ -1076,7 +1145,9 @@ const Leads = () => {
                   value={formData.followUp}
                   onChange={handleInputChange}
                   placeholder="DD/MM/YYYY"
+                  className={errors.followUp ? "input-error" : ""}
                 />
+                {errors.followUp && <span className="error-text">{errors.followUp}</span>}
               </div>
             </div>
 
