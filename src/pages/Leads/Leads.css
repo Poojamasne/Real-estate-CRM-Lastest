@@ -384,6 +384,16 @@
   justify-content: space-between;
 }
 
+.budget-wrapper{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.budget-icon{
+  width: 14px;
+  height: 14px;
+}
 .admin-leads-page .leads-table th.location-col,
 .admin-leads-page .leads-table td.location-col{
   width: 205px;

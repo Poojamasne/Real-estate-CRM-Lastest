@@ -345,7 +345,8 @@
 
 .admin-agents-page .table-container{
   width: 100%;
-  overflow-x: auto;
+  overflow: auto;
+  scrollbar-width: none;
   margin-bottom: 24px;
   border: 1px solid #eaecf0;
   border-radius: 8px;
@@ -353,8 +354,7 @@
 
 
 .admin-agents-page .table-container::-webkit-scrollbar{
-  width: 8px;
-  height: 8px;
+  display: none;
 }
 
 .admin-agents-page .table-container::-webkit-scrollbar-track{
@@ -367,9 +367,9 @@
   border-radius: 4px;
 }
 
-.admin-agents-page .table-container::-webkit-scrollbar-thumb:hover{
+/* .admin-agents-page .table-container::-webkit-scrollbar-thumb:hover{
   background: #555;
-}
+} */
 
 /* Table Styles */
 .admin-agents-page .agents-table{
@@ -966,6 +966,7 @@
 
   .admin-agents-page .search-container{
     width: 100%;
+    font-size: 12px;
   }
 
   .admin-agents-page .filters-group{
@@ -1058,6 +1059,7 @@
 
 .admin-agents-page .search-container input{
   width: 100%;
+  font-size: 12px;
 }
 
 }

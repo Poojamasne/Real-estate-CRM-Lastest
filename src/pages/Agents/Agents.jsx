@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { getAssetPath } from "../../utils/assetPath";
 import "./Agents.css";
+import { useNavigate } from "react-router-dom";
 
 const Agents = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
@@ -602,7 +604,7 @@ const Agents = () => {
         </div>
 
         <div className="add-agent-row">
-          <button className="add-agent-btn" onClick={openAddModal}>
+          <button className="add-agent-btn" onClick={() =>navigate("/agents/add")}>
             <span className="plus-icon">+</span>
             Add Agent
           </button>
@@ -653,7 +655,7 @@ const Agents = () => {
               />
               <input
                 type="text"
-                placeholder="Search agent by name, phone, email..."
+                placeholder="Search agent by name, phone, email"
                 className="search-input"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -1147,8 +1149,7 @@ const Agents = () => {
                   <>
                     <div className="form-row">
                       <div
-                        className="form-gro
-                  up"
+                        className="form-group"
                       >
                         <label>Agent Name *</label>
                         <input

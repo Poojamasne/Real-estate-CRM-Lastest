@@ -769,7 +769,12 @@ const Leads = () => {
                         <td className="requirement-col">
                           <span className="requirement-box">{lead.requirement}</span>
                         </td>
-                        <td className="budget-col budget-cell"><span> <img src="/assets/Vector.svg" alt="Vector" /></span> {lead.budget}</td>
+                        <td className="budget-col budget-cell">
+                          <div className="budget-wrapper">
+                            <img src="/assets/Vector.svg" alt="Vector" />
+                            <span>{lead.budget}</span>
+                          </div>
+                            </td>
                         <td className="location-col">{lead.location}</td>
                         <td className="agent-col">{lead.agent}</td>
                         <td className="followup-col">{lead.followUp}</td>

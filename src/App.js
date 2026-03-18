@@ -22,6 +22,7 @@ import AgentLeads from "./pages/AgentPanel/Leads/AgentLeads";
 import AgentSiteVisits from "./pages/AgentPanel/SiteVisits/AgentSiteVisits";
 import AgentReports from "./pages/AgentPanel/Reports/AgentReports";
 import AddLead from "./pages/AgentPanel/Leads/AddLead";
+import AddAgent from "./pages/Agents/AddAgent";
 
 // Protected Route component - for admin
 const ProtectedRoute = ({ children }) => {
@@ -135,6 +136,17 @@ function App() {
               </ProtectedRoute>
             }
           />
+            <Route
+            path="/agents/add"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <AddAgent />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+
           <Route
             path="/reports"
             element={
