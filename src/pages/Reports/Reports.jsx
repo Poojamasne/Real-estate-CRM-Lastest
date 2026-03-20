@@ -325,21 +325,20 @@ const Reports = () => {
   };
 
 const describeArc = (x, y, radius, startAngle, endAngle) => {
-  const start = polarToCartesian(x, y, radius, startAngle);
-  const end = polarToCartesian(x, y, radius, endAngle);
+  const start = polarToCartesian(x, y, radius, endAngle); // ✅ swapped
+  const end = polarToCartesian(x, y, radius, startAngle); // ✅ swapped
 
   const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
 
   return [
-    "M", x, y,                 // 👉 start from center
-    "L", start.x, start.y,     // 👉 go to arc start
-    "A", radius, radius, 0, largeArcFlag, 1, end.x, end.y, // 👉 arc
+    "M", x, y,
+    "L", start.x, start.y,
+    "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y,
     "Z"
   ].join(" ");
 };
-
   const buyAngle = buyPercentage > 0 ? (buyPercentage / 100) * 360 : 0;
-
+  const safeBuyAngle = buyAngle === 360 ? 359.99 : buyAngle;
   // Show loading state
   if (loading) {
     return (
@@ -417,7 +416,7 @@ const describeArc = (x, y, radius, startAngle, endAngle) => {
                 {/* BUY - Blue (starting from 0 to buyAngle) */}
                 {buyPercentage > 0 && (
                   <path
-                    d={describeArc(150, 150, 100, 0, buyAngle)}
+                    d={describeArc(150, 150, 100, 0, safeBuyAngle)}
                     fill="#39BBEF"
                   />
                 )}
@@ -425,7 +424,7 @@ const describeArc = (x, y, radius, startAngle, endAngle) => {
                 {/* RENT - Green (starting from buyAngle to 360) */}
                 {rentPercentage > 0 && (
                   <path
-                    d={describeArc(150, 150, 100, buyAngle, 360)}
+                    d={describeArc(150, 150, 100, safeBuyAngle, 360)}
                     fill="#1BF3CC"
                   />
                 )}
